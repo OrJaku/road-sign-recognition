@@ -31,7 +31,8 @@ with open('output/image_list.csv', mode="w") as csv_file:
                     print("FILE", file_) 
                     images.append(file_)
                     new_row.writerow([file_])
-                 
+                    break
+           
 print(images)
 print("Number of images with choosen sign: ", len(images))
 print("CSV file with image name has been save as 'image_list.csv'")
