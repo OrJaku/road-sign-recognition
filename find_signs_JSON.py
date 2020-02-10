@@ -6,7 +6,7 @@ label_of_sign = "information--pedestrians-crossing--g1" #znak przejścia dla pie
 
 local_path = os.path.abspath(os.path.dirname(__file__)) #ścieżka lokalna folderu z danymi
 external_path = "\\\\Dell-komputer\img_mgr\mtsd_fully_annotated" #ścieżka sieciowa folderu z danymi
-path_to_annotations = os.path.join(external_path, 'annotations') #wybranie folderu z plikami JSON
+path_to_annotations = os.path.join(external_path, 'annotation') #wybranie folderu z plikami JSON
 files_list = os.listdir(path_to_annotations)
 len(files_list)
 images = []
