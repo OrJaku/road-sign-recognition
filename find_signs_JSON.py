@@ -2,7 +2,9 @@ import json
 import os
 import csv
 
-label_of_sign = "information--pedestrians-crossing--g1" #znak przejścia dla pieszych
+# label_of_sign = "information--pedestrians-crossing--g1" #znak przejścia dla pieszych
+# label_of_sign = "regulatory--stop--g1" #znak stop
+label_of_sign = "regulatory--stop--g10" #znak stop2
 
 print("1 - Find one choosen label\n")
 print("2 - Get label list \n")
@@ -20,7 +22,7 @@ respond = input("Chose one: ")
 
 while respond != "0":
     if respond == "1":
-        with open('output/image_list.csv', mode="w", newline="") as csv_file:
+        with open(f'output/imagelist_{label_of_sign}.csv', mode="w", newline="") as csv_file:
             i = 1
             new_row = csv.writer(
                 csv_file, 
@@ -46,7 +48,7 @@ while respond != "0":
                             break 
         respond = "0"
         print("Number of images with choosen sign: ", len(images))
-        print("CSV file with image name has been save as 'image_list.csv'")
+        print(f"CSV file with image name has been save as 'imagelist_{label_of_sign}.csv'")
     elif respond == "2":
         with open('output/label_list.csv', mode="w", newline="") as csv_file:
             i = 1
@@ -73,7 +75,7 @@ while respond != "0":
                             print("New label", label)
         respond = "0"
         print("Number of lables: ", len(label_list))
-        print("CSV file with labels has been save as 'label_list.csv'")
+        print("CSV file with labels has been save as 'labellist.csv'")
     else:
         pass   
 print("Exit !")
