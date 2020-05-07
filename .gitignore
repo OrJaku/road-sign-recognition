@@ -1,2 +1,6 @@
 .vscode
 output/
+.idea/
+cross_test_full/
+test_images/
+
