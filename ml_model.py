@@ -1,12 +1,15 @@
 import pandas as pd
 import numpy as np
 from keras import layers, models, optimizers
+from imageai.Detection import ObjectDetection
 from keras.preprocessing.image import ImageDataGenerator
+
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import os, cv2
 import argparse
+
 
 picture_size = 100
 
@@ -43,15 +46,14 @@ model.compile(
     optimizer="adam",
     metrics=['acc']
     )
-# model.summary()
+model.summary()
 
 model.load_weights('model_signs.h5')
 
 local_path = os.path.abspath(os.path.dirname(__file__))
 
-
-test_dir = os.path.join(local_path, 'test_images')
-test_files = os.listdir(test_dir)
+# ///////////DISPLAYING IMAGES//////////
+# test_dir = os.path.join(local_path, 'test_images')
 # figure = plt.figure()
 # i = 0
 # number_of_test_image = len(test_files)
@@ -85,7 +87,9 @@ test_files = os.listdir(test_dir)
 #     plt.title(f"{classes.title()} {correct}", fontsize=6)
 #     i += 1
 # plt.show()
+# //////////////////////////////////////////
 
+# ////////////// R-CNN Mask ///////////////
 test_dir = os.path.join(local_path, 'cross_test_full')
 figure = plt.figure()
 ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
@@ -116,4 +120,4 @@ for e, i in enumerate(os.listdir(test_dir)):
         plt.yticks([])
         plt.imshow(imout)
 plt.show()
-
+# ///////////////////////////////
