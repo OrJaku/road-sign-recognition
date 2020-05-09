@@ -49,10 +49,10 @@ for label_of_sign in labels_list:
                         width = x_max - x_min
                         height = y_max - y_min
                         # # /// cutting out of the sign ///
-                        # y_min = y_min + (3*height)
-                        # y_max = y_max + (3*height)
-                        # x_max = x_max + (4*width)
-                        # x_min = x_min + (4*width)
+                        y_min = y_min + (5*height)
+                        y_max = y_max + (5*height)
+                        x_max = x_max + (2*width)
+                        x_min = x_min + (2*width)
                         # # /////////
                         area = (x_min, y_min, x_max, y_max)
 
@@ -61,4 +61,4 @@ for label_of_sign in labels_list:
 
                         img_cut = img.crop(area)
                         print(f'{i} img saved | {width}x{height}')
-                        img_cut.save(f"{output_cut_path}/{label_of_sign}_2_{i}.jpg")
+                        img_cut.save(f"{output_cut_path}/{label_of_sign}_3_{i}.jpg")
