@@ -3,4 +3,7 @@ output/
 .idea/
 cross_test_full/
 test_images/
+picture_test_full/
+*.h5
+
 
