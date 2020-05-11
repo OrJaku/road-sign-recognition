@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from keras import layers, models
 import matplotlib
 import matplotlib.pyplot as plt
@@ -57,22 +58,23 @@ load_model(activation_model)
 
 # ////////////// R-CNN Mask ///////////////
 test_dir = os.path.join(local_path, 'picture_test_full')
-figure = plt.figure(figsize=(100, 100))
+figure = plt.figure()
 ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
 z = 0
 print(f'Funkcja aktywacji: {activation_model}')
+color = (0, 0, 0)
 for e, i in enumerate(os.listdir(test_dir)):
     print(e, i)
     if i.startswith("cross") or i.startswith("stop"):
         img = cv2.imread(os.path.join(test_dir, i))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        plt.subplot(6, 5, z+1)
+        plt.subplot(3, 4, z+1)
         plt.tight_layout()
         ss.setBaseImage(img)
         ss.switchToSelectiveSearchFast()
         ssresults = ss.process()
         imout = img.copy()
-        probably_list = []
+        probability_list = []
         z += 1
         for w, result in enumerate(ssresults):
             if w < 2000:
@@ -82,29 +84,49 @@ for e, i in enumerate(os.listdir(test_dir)):
                 img = np.expand_dims(resized, axis=0)
                 out = model.predict(img/255.0, batch_size=10)
                 square = w/h
+                probability = []
                 for class_ in range(number_of_classes):
-                    if class_ == 0:
-                        color = (255, 15, 0)
-                    elif class_ == 1:
-                        color = (15, 255, 0)
-                    elif class_ == 2:
-                        continue
-                    elif class_ == 3:
-                        color = (255, 255, 0)
-                    else:
-                        color = (0, 0, 0)
+                    probability_percent = out[0][class_]
                     if class_ != 2:
-                        if out[0][class_] >= 0.99 and 0.8 <= square <= 1.2:
-                            cv2.rectangle(imout, (x, y), (x+w, y+h), color, 1, cv2.LINE_AA)
+                        if probability_percent >= 0.75 and 0.88 <= square <= 1.12:
+                            probability.append(class_)
+                            probability.append(probability_percent)
+                            probability.append(result)
                         else:
                             pass
                     else:
                         pass
+                if probability:
+                    probability_list.append(probability)
+                else:
+                    pass
+        probability_list_array = np.array(probability_list)
+        df = pd.DataFrame(data=probability_list_array, columns=["class", "probability", "coordinate"])
+        df.sort_values("probability", axis=0, ascending=False, inplace=True, na_position='last')
+        max_probability = df.iloc[0]
+        class_highest = max_probability[0]
+        probability_highest = max_probability[1]
+        coordinate_highest = max_probability[2]
+        x, y, w, h = coordinate_highest
+        if class_highest == 0:
+            class_name = "Przejście dla pieszych"
+            color = (255, 0, 0)
+        elif class_highest == 1:
+            color = (0, 255, 0)
+            class_name = "Ograniczenie do 50km/h"
+        elif class_highest == 3:
+            color = (255, 255, 0)
+            class_name = "Stop"
+        else:
+            class_name = "None"
+        print('Max probability {} - Class: {} \n'.format(probability_highest, class_name))
 
+        cv2.rectangle(imout, (x, y), (x+w, y+h), color, 1, cv2.LINE_AA)
         plt.xticks([])
         plt.yticks([])
         plt.imshow(imout)
 plt.show()
+
 # ///////////////////////////////
 
 # ///////////DISPLAYING IMAGES//////////
