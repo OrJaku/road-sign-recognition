@@ -58,7 +58,7 @@ load_model(activation_model)
 
 # ////////////// R-CNN Mask ///////////////
 test_dir = os.path.join(local_path, 'picture_test_full')
-figure = plt.figure()
+# figure = plt.figure()
 ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
 z = 0
 print(f'Funkcja aktywacji: {activation_model}')
@@ -66,10 +66,12 @@ color = (0, 0, 0)
 for e, i in enumerate(os.listdir(test_dir)):
     print(e, i)
     if i.startswith("cross") or i.startswith("stop"):
+        plt.figure()
         img = cv2.imread(os.path.join(test_dir, i))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        plt.subplot(3, 4, z+1)
-        plt.tight_layout()
+        # plt.subplot(3, 4, z+1)
+        #
+        # plt.tight_layout()
         ss.setBaseImage(img)
         ss.switchToSelectiveSearchFast()
         ssresults = ss.process()
@@ -105,28 +107,30 @@ for e, i in enumerate(os.listdir(test_dir)):
         df.sort_values("probability", axis=0, ascending=False, inplace=True, na_position='last')
         max_probability = df.iloc[0]
         class_highest = max_probability[0]
-        probability_highest = max_probability[1]
+        probability_highest = round(max_probability[1], 3)
+        probability_highest = '%.3f' % probability_highest
         coordinate_highest = max_probability[2]
         x, y, w, h = coordinate_highest
         if class_highest == 0:
-            class_name = "Przejście dla pieszych"
+            class_name = "Przejscie"
             color = (255, 0, 0)
         elif class_highest == 1:
             color = (0, 255, 0)
-            class_name = "Ograniczenie do 50km/h"
+            class_name = "Ograniczenie 50km/h"
         elif class_highest == 3:
             color = (255, 255, 0)
             class_name = "Stop"
         else:
             class_name = "None"
         print('Max probability {} - Class: {} \n'.format(probability_highest, class_name))
-
+        label = f"{class_name} - {probability_highest}"
         cv2.rectangle(imout, (x, y), (x+w, y+h), color, 1, cv2.LINE_AA)
+        cv2.putText(imout, label, (x, y), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.2, color, 1)
         plt.xticks([])
         plt.yticks([])
         plt.imshow(imout)
-plt.show()
-
+        plt.title('{} - {}'.format(probability_highest, class_name, fontsize=3))
+    plt.show()
 # ///////////////////////////////
 
 # ///////////DISPLAYING IMAGES//////////
