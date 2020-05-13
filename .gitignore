@@ -4,6 +4,10 @@ output/
 cross_test_full/
 test_images/
 picture_test_full/
+video_test_full
 *.h5
+additonal_pic/
+__pycache__/
+
 
 
