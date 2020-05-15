@@ -1,4 +1,4 @@
-from keras import layers, models
+from keras import models
 import matplotlib
 import os
 matplotlib.use('TkAgg')
@@ -20,27 +20,8 @@ class ModelInit:
         return self._model
 
     def get_model(self):
-        model = models.Sequential()
-        model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(self.picture_size, self.picture_size, 3)))
-        model.add(layers.MaxPool2D((2, 2)))
-        model.add(layers.Dropout(0.3))
-
-        model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-        model.add(layers.MaxPool2D((2, 2)))
-        model.add(layers.Dropout(0.3))
-
-        model.add(layers.Conv2D(128, (3, 3), activation='relu'))
-        model.add(layers.MaxPool2D((2, 2)))
-        model.add(layers.Dropout(0.3))
-
-        model.add(layers.Conv2D(128, (3, 3), activation='relu'))
-        model.add(layers.MaxPool2D((2, 2)))
-        model.add(layers.Dropout(0.3))
-
-        model.add(layers.Flatten())
-        model.add(layers.Dense(1024, activation='relu'))
-        model.add(layers.Dense(self.number_of_classes, activation=self.activation_model))
-
+        with open('models_json_files/model_vgg.json', 'r') as f:
+            model = models.model_from_json(f.read())
         model.compile(
             loss='categorical_crossentropy',
             optimizer='adam',
@@ -53,7 +34,7 @@ class ModelInit:
     def load_model(self):
         print("Weights loaded")
         model = self.get_model()
-        model.load_weights('model_signs_4_multi_classes_{}.h5'.format(self.activation_model))
+        model.load_weights('models_weights/model_signs_4_multi_classes_{}.h5'.format(self.activation_model))
         return model
 
 # ///////////DISPLAYING IMAGES//////////
