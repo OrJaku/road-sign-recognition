@@ -14,7 +14,6 @@ def get_picture_detection(model, activation_model, number_of_classes):
     ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
     z = 0
     print(f'Funkcja aktywacji: {activation_model}')
-    color = (0, 0, 0)
     for e, i in enumerate(os.listdir(test_dir)):
         print(e, i)
         if i.startswith("cross") or i.startswith("stop"):
@@ -45,10 +44,17 @@ def get_picture_detection(model, activation_model, number_of_classes):
                     for class_predicted in range(number_of_classes):
                         probability_percent = out[0][class_predicted]
                         if class_predicted != 2:
-                            if probability_percent >= 0.985 and 0.88 <= square <= 1.12:
+                            if activation_model == 'softmax':
+                                probability_threshold = 0.9
+                            elif activation_model == 'sigmoid':
+                                probability_threshold = 0.8
+                            else:
+                                probability_threshold = None
+                            if probability_percent >= probability_threshold and 0.88 <= square <= 1.12:
                                 found_point.append(class_predicted)
                                 found_point.append(probability_percent)
                                 found_point.append(result)
+
                                 coordinate_temp.append(result)
                                 class_temp.append(class_predicted)
                             else:
@@ -90,9 +96,23 @@ def get_picture_detection(model, activation_model, number_of_classes):
                     class_name = "None"
                     color_box = (0, 0, 0)
                 print('Max probability {} - Class: {} \n'.format(probability_highest, class_name))
-                label = f"{class_name} - {probability_highest}"
+                font_scale = 0.8
+                font = cv2.FONT_HERSHEY_PLAIN
+
+                rectangle_bgr = (255, 255, 255)
+
+                text = f"{class_name} - {probability_highest}"
+
+                (text_width, text_height) = cv2.getTextSize(text, font, fontScale=font_scale, thickness=1)[0]
+
+                text_offset_x = 10
+                text_offset_y = imout.shape[0] - 25
+
+                box_coords = ((text_offset_x, text_offset_y), (text_offset_x + text_width + 2, text_offset_y - text_height - 2))
+                # cv2.rectangle(imout, (x, y), (x+10, y+10), rectangle_bgr, cv2.FILLED)
+                cv2.putText(imout, text, (text_offset_x, text_offset_y), font, fontScale=font_scale, color=(0, 0, 0), thickness=1)
+
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 1, cv2.LINE_AA)
-                cv2.putText(imout, label, (x, y), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.2, color_box, 1)
             try:
                 box_generator(found_points_list_cross)
             except ValueError:
@@ -108,5 +128,6 @@ def get_picture_detection(model, activation_model, number_of_classes):
             plt.xticks([])
             plt.yticks([])
             plt.imshow(imout)
-            #plt.title('{} - {}'.format(probability_highest, class_name, fontsize=3))
+            # plt.title('{} - {}'.format(probability_highest, class_name, fontsize=3))
         plt.show()
+

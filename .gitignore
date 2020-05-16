@@ -8,6 +8,6 @@ video_test_full
 *.h5
 additonal_pic/
 __pycache__/
-
+models_json_files/
 
 

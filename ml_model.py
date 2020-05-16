@@ -7,10 +7,11 @@ local_path = os.path.abspath(os.path.dirname(__file__))
 
 
 class ModelInit:
-    def __init__(self, picture_size, number_of_classes, activation_model):
+    def __init__(self, picture_size, number_of_classes, activation_model, model_structure_file):
         self.picture_size = picture_size
         self.number_of_classes = number_of_classes
         self.activation_model = activation_model
+        self.model_structure_file = model_structure_file
         self._model = None
 
     @property
@@ -20,7 +21,7 @@ class ModelInit:
         return self._model
 
     def get_model(self):
-        with open('models_json_files/model_vgg.json', 'r') as f:
+        with open(f'models_json_files/{self.model_structure_file}.json', 'r') as f:
             model = models.model_from_json(f.read())
         model.compile(
             loss='categorical_crossentropy',
