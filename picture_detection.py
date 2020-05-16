@@ -13,7 +13,7 @@ def get_picture_detection(model, activation_model, number_of_classes):
     # figure = plt.figure()
     ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
     z = 0
-    print(f'Funkcja aktywacji: {activation_model}')
+    print(f'Funkcja aktywacji: {activation_model.upper()}')
     for e, i in enumerate(os.listdir(test_dir)):
         print(e, i)
         if i.startswith("cross") or i.startswith("stop"):
@@ -79,7 +79,7 @@ def get_picture_detection(model, activation_model, number_of_classes):
                 print(df)
                 max_probability = df.iloc[0]
                 class_highest = max_probability[0]
-                probability_highest = round(max_probability[1], 3)
+                probability_highest = round(max_probability[1], 2)
                 probability_highest = '%.3f' % probability_highest
                 coordinate_highest = max_probability[2]
                 x, y, w, h = coordinate_highest
@@ -98,19 +98,16 @@ def get_picture_detection(model, activation_model, number_of_classes):
                 print('Max probability {} - Class: {} \n'.format(probability_highest, class_name))
                 font_scale = 0.8
                 font = cv2.FONT_HERSHEY_PLAIN
-
-                rectangle_bgr = (255, 255, 255)
-
-                text = f"{class_name} - {probability_highest}"
-
-                (text_width, text_height) = cv2.getTextSize(text, font, fontScale=font_scale, thickness=1)[0]
-
-                text_offset_x = 10
-                text_offset_y = imout.shape[0] - 25
-
-                box_coords = ((text_offset_x, text_offset_y), (text_offset_x + text_width + 2, text_offset_y - text_height - 2))
-                # cv2.rectangle(imout, (x, y), (x+10, y+10), rectangle_bgr, cv2.FILLED)
-                cv2.putText(imout, text, (text_offset_x, text_offset_y), font, fontScale=font_scale, color=(0, 0, 0), thickness=1)
+                text = f"{class_name}-{probability_highest}"
+                # cv2.rectangle(imout, (x, y), (x+20, y-10), rectangle_bgr, cv2.FILLED)
+                cv2.putText(imout,
+                            text,
+                            (x, y),
+                            font,
+                            fontScale=font_scale,
+                            color=(255, 255, 255),
+                            thickness=1
+                            )
 
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 1, cv2.LINE_AA)
             try:

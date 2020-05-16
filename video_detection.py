@@ -12,30 +12,51 @@ def get_video_detection(model):
     test_dir = os.path.join(local_path, 'video_test_full')
     file_dir = os.path.join(test_dir, 'warsaw_drive_cut.mp4')
     print(file_dir)
-    ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
-    cap = cv2.VideoCapture(file_dir)
-    video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    cap_video_fps = int(cap.get(cv2.CAP_PROP_FPS))
-    cap_video_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    cap_video_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    print(cap_video_fps)
+    vs = cv2.VideoCapture(file_dir)
+    writer = None
+    (W, H) = (None, None)
+
+    video_length = int(vs.get(cv2.CAP_PROP_FRAME_COUNT))
+    cap_video_fps = int(vs.get(cv2.CAP_PROP_FPS))
+    cap_video_width = int(vs.get(cv2.CAP_PROP_FRAME_WIDTH))
+    cap_video_height = int(vs.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    mean = np.array([100, 100, 100], dtype="float32")
     while True:
-        ret, frames = cap.read()
-        # video = cv2.cvtColor(frames, cv2.COLOR_BGR2RGB)
-        ss.setBaseImage(frames)
-        ss.switchToSelectiveSearchFast()
-        ssresults = ss.process()
-        for w, result in enumerate(ssresults):
-            if w < 2000:
-                x, y, w, h = result
-                timage = frames[y:y+h, x:x+w]
-                resized = cv2.resize(timage, (100, 100), interpolation=cv2.INTER_AREA)
-                img = np.expand_dims(resized, axis=0)
-                out = model.predict(img/255.0, batch_size=10)
-                if out[0][0] == 1:
-                    cv2.rectangle(frames, (x, y), (x+w, y+h), (0, 255, 0), 1, cv2.LINE_AA)
-        cv2.VideoWriter('output.avi', -1, 20.0, (cap_video_width, cap_video_height))
-        # cv2.imshow('video2', frames)
-        if cv2.waitKey(33) == 27:
+        (grabbed, frame) = vs.read()
+        if not grabbed:
+            break
+        if W is None or H is None:
+            (H, W) = frame.shape[:2]
+        output = frame.copy()
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = cv2.resize(frame, (100, 100)).astype("float32")
+        frame -= mean
+
+        preds = model.predict(np.expand_dims(frame, axis=0))[0]
+        if preds[0] == 0:
+            class_name = "Przejscie"
+        elif preds[0] == 1:
+            class_name = "Ograniczenie 50km/h"
+        elif preds[0] == 3:
+            class_name = "Stop"
+        else:
+            class_name = "None"
+
+        text = class_name
+        cv2.putText(output, text, (35, 50), cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8, (0, 255, 0), 5)
+        # check if the video writer is None
+        if writer is None:
+            # initialize our video writer
+            fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+            writer = cv2.VideoWriter('out_video.mp4', fourcc, 30,
+                                     (W, H), True)
+        # write the output frame to disk
+        writer.write(output)
+        # show the output image
+        cv2.imshow("Output", output)
+        key = cv2.waitKey(1) & 0xFF
+        # if the `q` key was pressed, break from the loop
+        if key == ord("q"):
             break
     print("__END__")
