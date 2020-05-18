@@ -11,23 +11,27 @@ import shutil
 # label_of_sign = "warning--railroad-crossing-with-barriers--g1" # przejazd kolejowy z barierami  
 
 labels_list = [
-                "regulatory--stop--g1",
-                "regulatory--maximum-speed-limit-50--g1",
-                "warning--pedestrians-crossing--g5",
-                "warning--railroad-crossing--g3",
-                "warning--railroad-crossing-with-barriers--g1",
+    "regulatory--maximum-speed-limit-60--g1",
+    "regulatory--maximum-speed-limit-100--g1",
+    "regulatory--maximum-speed-limit-40--g1",
+    "regulatory--maximum-speed-limit-70--g1",
+    "regulatory--maximum-speed-limit-80--g1",
 ]
 
 
 local_path = os.path.abspath(os.path.dirname(__file__))
-external_path = "\\\\Dell-komputer\img_mgr\mtsd_fully_annotated" 
+# external_path = "\\\\Dell-komputer\img_mgr\mtsd_fully_annotated" # Widnows
+external_path = "/run/user/1000/gvfs/smb-share:server=dell-komputer,share=img_mgr/mtsd_fully_annotated" # Ubuntu
+media_usb_path = "/media/kuba-ubuntu/UUI/img_mgr"
 path_to_images = os.path.join(external_path, 'images')
 path_to_labels = os.path.join(external_path, 'annotations')
 
 for label_of_sign in labels_list:
     output_files = os.path.join(local_path, 'output')
     print("Output path", output_files)
-    folder_with_filtered_images = os.path.join(external_path, f'my_image/{label_of_sign}')
+    # folder_with_filtered_images = os.path.join(external_path, f'my_image/{label_of_sign}')
+    folder_with_filtered_images = os.path.join(media_usb_path, f'{label_of_sign}')
+
     try:
         os.mkdir(folder_with_filtered_images)
     except FileExistsError:
@@ -62,15 +66,13 @@ for label_of_sign in labels_list:
         if img_name in signs_csv_img_list:
             i += 1
             shutil.copy(
-                    os.path.join(
-                                path_to_images, img_jpg_name), 
-                                folder_with_filtered_images
-                                )
+                    os.path.join(path_to_images, img_jpg_name),
+                    folder_with_filtered_images
+                    )
             shutil.copy(
-                    os.path.join(
-                                path_to_labels, img_json_name), 
-                                folder_with_filtered_images
-                                )
+                    os.path.join(path_to_labels, img_json_name),
+                    folder_with_filtered_images
+                    )
             print(f"Copied file {img_name} files {i}")
             signs_csv_img_list.remove(img_name)
     print(f"Copying of {label_of_sign} SUCCESFULL!!")

@@ -12,7 +12,7 @@ model_init = ModelInit(picture_size, number_of_classes, activation_model, model_
 model = model_init.model
 
 # Picture detection
-# get_picture_detection(model, model_init.activation_model, model_init.number_of_classes)
+get_picture_detection(model, model_init.activation_model, model_init.number_of_classes)
 
 # Video detection
-get_video_detection(model)
+# get_video_detection(model)

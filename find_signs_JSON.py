@@ -10,9 +10,9 @@ import csv
 # label_of_sign = "warning--railroad-crossing--g3" # przejazd kolejowy
 # label_of_sign = "warning--railroad-crossing-with-barriers--g1" # przejazd kolejowy z barierami 
 
-
-
-labels_list = [label_of_sign]
+labels_list = [
+               "regulatory--maximum-speed-limit-80--g1",
+                ]
 
 
 print("1 - Find one choosen label\n")
@@ -20,10 +20,11 @@ print("3 - Get label list \n")
 print("0 - Exit program \n")
 
 local_path = os.path.abspath(os.path.dirname(__file__)) #ścieżka lokalna folderu z danymi
-external_path = "\\\\Dell-komputer\img_mgr\mtsd_fully_annotated" #ścieżka sieciowa folderu z danymi
-path_to_annotations = os.path.join(external_path, 'annotations') #wybranie folderu z plikami JSON
+# external_path = "\\\\Dell-komputer\img_mgr\mtsd_fully_annotated" #ścieżka sieciowa folderu z danymi
+external_path = "/run/user/1000/gvfs/smb-share:server=dell-komputer,share=img_mgr/mtsd_fully_annotated" # Ubuntu
+
+path_to_annotations = os.path.join(external_path, 'annotations')  # wybranie folderu z plikami JSON
 files_list = os.listdir(path_to_annotations)
-i = 1
 images = []
 label_list = []
 
