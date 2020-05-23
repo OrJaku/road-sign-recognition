@@ -15,6 +15,10 @@ from PIL import Image
 path_to_files = os.path.abspath("/media/kuba-ubuntu/UUI/img_mgr")  # Ubuntu
 path_to_out = os.path.abspath("/home/kuba-ubuntu/img_mgr_out")  # Ubuntu
 
+nosign = False
+delta_x = 2
+delta_y = 5
+
 labels_list = os.listdir(path_to_files)
 
 for label_of_sign in labels_list:
@@ -49,10 +53,11 @@ for label_of_sign in labels_list:
                         width = x_max - x_min
                         height = y_max - y_min
                         # # /// cutting out of the sign ///
-                        y_min = y_min + (5*height)
-                        y_max = y_max + (5*height)
-                        x_max = x_max + (2*width)
-                        x_min = x_min + (2*width)
+                        if nosign:
+                            y_min = y_min + (delta_y * height)
+                            y_max = y_max + (delta_y * height)
+                            x_max = x_max + (delta_x * width)
+                            x_min = x_min + (delta_x * width)
                         # # /////////
                         area = (x_min, y_min, x_max, y_max)
 
@@ -61,4 +66,4 @@ for label_of_sign in labels_list:
 
                         img_cut = img.crop(area)
                         print(f'{i} img saved | {width}x{height}')
-                        img_cut.save(f"{output_cut_path}/{label_of_sign}_3_{i}.jpg")
+                        img_cut.save(f"{output_cut_path}/{label_of_sign}_{i}.jpg")

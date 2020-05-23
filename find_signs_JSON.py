@@ -21,7 +21,7 @@ print("0 - Exit program \n")
 
 local_path = os.path.abspath(os.path.dirname(__file__)) #ścieżka lokalna folderu z danymi
 # external_path = "\\\\Dell-komputer\img_mgr\mtsd_fully_annotated" #ścieżka sieciowa folderu z danymi
-external_path = "/run/user/1000/gvfs/smb-share:server=dell-komputer,share=img_mgr/mtsd_fully_annotated" # Ubuntu
+external_path = "/run/user/1000/gvfs/smb-share:server=dell-komputer,share=img_mgr/mtsd_fully_annotated"  # Ubuntu
 
 path_to_annotations = os.path.join(external_path, 'annotations')  # wybranie folderu z plikami JSON
 files_list = os.listdir(path_to_annotations)
