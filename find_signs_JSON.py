@@ -14,7 +14,6 @@ labels_list = [
                "regulatory--maximum-speed-limit-80--g1",
                 ]
 
-
 print("1 - Find one choosen label\n")
 print("3 - Get label list \n")
 print("0 - Exit program \n")

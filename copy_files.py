@@ -7,14 +7,12 @@ sign = 'nosign'
 
 
 def coping(origin_path, directory_path, sign_name):
-
     dst_train = os.path.join(directory_path, 'train_data', sign_name)
     dst_valid = os.path.join(directory_path, 'valid_data', sign_name)
     dst_test = os.path.join(directory_path, 'test_data', sign_name)
     origin_path_list = os.listdir(origin_path)
-
     print("Origin len: {}, Directory: {}".format(len(origin_path_list), origin_path))
-    # train cross
+
     train_files = origin_path_list[0:int(len(origin_path_list)*0.6)]
     print("Train len: ", len(train_files))
     for image_name in train_files:
@@ -25,14 +23,12 @@ def coping(origin_path, directory_path, sign_name):
 
     valid_files = origin_path_list[int(len(origin_path_list)*0.6):int(len(origin_path_list)*0.9)]
     print("Valid len", len(valid_files))
-    # validation cross
     for image_name in valid_files:
         src_va = os.path.join(origin_path, image_name)
         dst_va = os.path.join(dst_valid, image_name)
         shutil.copyfile(src_va, dst_va)
     print("validation copied")
 
-    # test cross
     test_files = origin_path_list[int(len(origin_path_list)*0.9):]
     print("Test len :", len(test_files))
     for image_name in test_files:
