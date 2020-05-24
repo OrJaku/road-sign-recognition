@@ -16,11 +16,9 @@ labels_list = [
 
 
 def find_signs(path_to_fully_images, labels_to_find, save_csv_directory='output', load_json_file_directory='annotations'):
-
-    print("1 - Find one choosen label\n")
-    print("2 - Get label list \n")
-    print("0 - Exit program \n")
-
+    print("1 - Find one choosen label")
+    print("2 - Get label list")
+    print("0 - Exit program")
     path_to_annotations = os.path.join(path_to_fully_images, load_json_file_directory)  # wybranie folderu z plikami JSON
     files_list = os.listdir(path_to_annotations)
     images = []

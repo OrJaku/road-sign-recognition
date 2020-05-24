@@ -2,12 +2,6 @@ import os
 import json
 from PIL import Image
 
-# znak przejścia dla pieszych
-# label_of_sign = "information--pedestrians-crossing--g1"
-# znak stop
-# label_of_sign = "regulatory--stop--g1"
-# znak stop2
-# label_of_sign = "regulatory--stop--g10"
 
 # path_to_files = os.path.abspath("E:/img_mgr")  # Windows
 # path_to_files = os.path.abspath("C:/Users/Jakub/Desktop/picture")  # Windows
@@ -18,6 +12,7 @@ path_to_out = os.path.abspath("/home/kuba-ubuntu/img_mgr_out")  # Ubuntu
 nosign = False
 delta_x = 2
 delta_y = 5
+
 
 labels_list = os.listdir(path_to_files)
 
