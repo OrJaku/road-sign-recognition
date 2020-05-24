@@ -16,14 +16,16 @@ labels_list = [
 
 
 def find_signs(path_to_fully_images, labels_to_find, save_csv_directory='output', load_json_file_directory='annotations'):
-    print("1 - Find one chose label")
-    print("2 - Get label list")
-    print("0 - Exit program")
+    print("""
+    1 - Znajdź znaki z listy
+    2 - Stwórz liste z etykietami
+    0 - Powrót
+    """)
     path_to_annotations = os.path.join(path_to_fully_images, load_json_file_directory)  # wybranie folderu z plikami JSON
     files_list = os.listdir(path_to_annotations)
     images = []
     label_list = []
-    respond = input("Chose one: ")
+    respond = input("Wybierz: ")
     while respond != "0":
         if respond == "1":
             for label_of_sign in labels_to_find:

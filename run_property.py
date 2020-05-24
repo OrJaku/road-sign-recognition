@@ -25,15 +25,37 @@ while True:
     3 - Wytnij znaki z pełnych zdjęć
     4 - Kopiuj wycięte zdjęcia do katalogów (train/valid/test)
     5 - Zmień nazwy plików 
+    0 - Koniec
     """)
-    resp = input("Chose one: ")
+    resp = input("Wybierz: ")
     if resp == "1":
         find_signs(external_path, labels_list)
     elif resp == "2":
         chose_image(local_path, external_path, output_media_usb_path, labels_list)
     elif resp == "3":
-        # If nosign -> nosign=True and choose shift parameters delta_x/y
-        cutting_sign(output_media_usb_path, cut_image_out_directory, nosign=False, delta_x=2, delta_y=5)
+        while True:
+            # If nosign -> nosign=True and choose shift parameters delta_x/y
+            print("""
+            1 - Wybrany znak 
+            2 - 'No sign' 
+            0 - Powrót 
+            """)
+            cutting_sign_resp = input("Wybierz: ")
+            if cutting_sign_resp == "1":
+                cutting_sign(output_media_usb_path, cut_image_out_directory)
+            elif cutting_sign_resp == "2":
+                delta_resp_x = int(input("Chose delta x parameter: "))
+                delta_resp_y = int(input("Chose delta y parameter: "))
+                cutting_sign(
+                            output_media_usb_path,
+                            cut_image_out_directory,
+                            nosign=True,
+                            delta_x=delta_resp_x,
+                            delta_y=delta_resp_y,
+                            )
+                print(f"Cut 'nosign' with parameters delta x={delta_resp_x}, y={delta_resp_y} ")
+            else:
+                break
     else:
         break
 
