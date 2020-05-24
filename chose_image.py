@@ -19,7 +19,6 @@ def chose_image(
         output_files = os.path.join(local_path, csv_with_labels_directory)
         print("Output path", output_files)
         folder_with_filtered_images = os.path.join(copy_chose_image_directory, f'{label_of_sign}')
-
         try:
             os.mkdir(folder_with_filtered_images)
         except FileExistsError:
@@ -62,4 +61,5 @@ def chose_image(
                         )
                 print(f"Copied file '{img_name}' || Found {i} files ")
                 signs_csv_img_list.remove(img_name)
+        print(f"Directory files: {copy_chose_image_directory}")
         print(f"Copied signs: '{label_of_sign}'\n Done!")
