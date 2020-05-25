@@ -35,7 +35,7 @@ class ModelInit:
     def load_model(self):
         print("Weights loaded")
         model = self.get_model()
-        model.load_weights('models_weights/model_signs_4_multi_classes_{}.h5'.format(self.activation_model))
+        model.load_weights('models_weights/model_signs_8_multi_classes_{}.h5'.format(self.activation_model))
         return model
 
 # ///////////DISPLAYING IMAGES//////////

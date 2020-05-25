@@ -2,6 +2,7 @@ import os
 from find_signs_JSON import find_signs
 from chose_image import chose_image
 from cutting_sign import cutting_sign
+from signs_list import signs_list
 
 labels_list = [
     "warning--railroad-crossing-with-barriers--g1",
@@ -25,6 +26,7 @@ while True:
     3 - Wytnij znaki z pełnych zdjęć
     4 - Kopiuj wycięte zdjęcia do katalogów (train/valid/test)
     5 - Zmień nazwy plików 
+    9 - Dostępne znaki
     0 - Koniec
     """)
     resp = input("Wybierz: ")
@@ -56,13 +58,7 @@ while True:
                 print(f"Cut 'nosign' with parameters delta x={delta_resp_x}, y={delta_resp_y} ")
             else:
                 break
+    elif resp == "9":
+        signs_list(local_path)
     else:
         break
-
-# "information--pedestrians-crossing--g1" # znak przejścia dla pieszych
-# "regulatory--stop--g1" # znak stop
-# "regulatory--stop--g10" # znak stop2
-# "regulatory--maximum-speed-limit-50--g1"  #znak ograniczenia predkosco do 50km/h
-# "warning--pedestrians-crossing--g5" # znak przejscia dla pieszych ostrzeg.
-# "warning--railroad-crossing--g3" # przejazd kolejowy
-# "warning--railroad-crossing-with-barriers--g1" # przejazd kolejowy z barierami

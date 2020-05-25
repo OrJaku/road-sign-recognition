@@ -1,0 +1,14 @@
+[
+  {"Przejscie_dla_pieszych": "information--pedestrians-crossing--g1"},
+  {"Stop": "regulatory--stop--g1"},
+  {"Ograniczenie_predkosci_40km/h": "regulatory--maximum-speed-limit-40--g1"},
+  {"Ograniczenie_predkosci_50km/h": "regulatory--maximum-speed-limit-50--g1"},
+  {"Ograniczenie_predkosci_60km/h": "regulatory--maximum-speed-limit-60--g1"},
+  {"Ograniczenie_predkosci_70km/h": "regulatory--maximum-speed-limit-70--g1"},
+  {"Ograniczenie_predkosci_80km/h": "regulatory--maximum-speed-limit-80--g1"},
+  {"Ograniczenie_predkosci_100km/h": "regulatory--maximum-speed-limit-100--g1"},
+  {"Przejscie_dla_pieszych_ostrzegawczy": "warning--pedestrians-crossing--g5"},
+  {"Przejazd_kolejowy": "warning--railroad-crossing--g3"},
+  {"Przejazd_kolejowy_z_barierami": "warning--railroad-crossing-with-barriers--g1"}
+
+]

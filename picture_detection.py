@@ -66,7 +66,7 @@ def get_picture_detection(model, activation_model, number_of_classes):
                             found_points_list_cross.append(found_point)
                         elif found_point[0] == 1:
                             found_points_list_limit50.append(found_point)
-                        elif found_point[0] == 3:
+                        elif found_point[0] == 7:
                             found_points_list_stop.append(found_point)
 
                     else:
@@ -86,10 +86,10 @@ def get_picture_detection(model, activation_model, number_of_classes):
                 if found_points_list[0][0] == 0:
                     class_name = "Przejscie"
                     color_box = (255, 0, 0)
-                elif found_points_list[0][0] == 1:
+                elif found_points_list[0][0] == 2:
                     color_box = (0, 255, 0)
                     class_name = "Ograniczenie 50km/h"
-                elif found_points_list[0][0] == 3:
+                elif found_points_list[0][0] == 7:
                     color_box = (255, 255, 0)
                     class_name = "Stop"
                 else:
