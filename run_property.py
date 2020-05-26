@@ -2,11 +2,11 @@ import os
 from find_signs_JSON import find_signs
 from chose_image import chose_image
 from cutting_sign import cutting_sign
+from copy_files import copy_files
 from signs_list import signs_list
 
 labels_list = [
     "warning--railroad-crossing-with-barriers--g1",
-    "warning--railroad-crossing--g3",
 ]
 
 local_path = os.path.abspath(os.path.dirname(__file__))  # ścieżka lokalna folderu z danymi
@@ -18,6 +18,8 @@ local_path = os.path.abspath(os.path.dirname(__file__))  # ścieżka lokalna fol
 external_path = "/media/kuba-ubuntu/UUI/test_MGR"
 output_media_usb_path = "/media/kuba-ubuntu/UUI/img_mgr"
 cut_image_out_directory = "/home/kuba-ubuntu/img_mgr_out"
+dataset_directory = os.path.abspath("/home/kuba-ubuntu/Pobrane/Data")
+
 
 while True:
     print("""
@@ -58,6 +60,8 @@ while True:
                 print(f"Cut 'nosign' with parameters delta x={delta_resp_x}, y={delta_resp_y} ")
             else:
                 break
+    elif resp == "4":
+        copy_files(cut_image_out_directory, dataset_directory)
     elif resp == "9":
         signs_list(local_path)
     else:
