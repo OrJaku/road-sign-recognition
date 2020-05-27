@@ -10,7 +10,7 @@ except FileExistsError:
     pass
 
 files_list = os.listdir(path_to_files)
-i = 3000
+i = 0
 for file in files_list:
     i += 1
     img = Image.open(os.path.join(path_to_files, file))

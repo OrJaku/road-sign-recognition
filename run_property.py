@@ -27,7 +27,6 @@ while True:
     2 - Kopiuj wybrane zdjęcia do nowego katalogu 
     3 - Wytnij znaki z pełnych zdjęć
     4 - Kopiuj wycięte zdjęcia do katalogów (train/valid/test)
-    5 - Zmień nazwy plików 
     9 - Dostępne znaki
     0 - Koniec
     """)
