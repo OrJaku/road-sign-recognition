@@ -4,6 +4,7 @@ import os
 matplotlib.use('TkAgg')
 
 local_path = os.path.abspath(os.path.dirname(__file__))
+classes = {'cross': 0, 'limit40': 1, 'limit50': 2, 'limit60': 3, 'limit70': 4, 'limit80': 5, 'nosign': 6, 'stop': 7}
 
 
 class ModelInit:
@@ -35,7 +36,7 @@ class ModelInit:
     def load_model(self):
         print("Weights loaded")
         model = self.get_model()
-        model.load_weights('models_weights/model_signs_4_multi_classes_{}.h5'.format(self.activation_model))
+        model.load_weights('models_weights/model_signs_8_multi_classes_{}_2.h5'.format(self.activation_model))
         return model
 
 # ///////////DISPLAYING IMAGES//////////

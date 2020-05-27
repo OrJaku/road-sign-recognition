@@ -7,7 +7,7 @@ import cv2
 matplotlib.use('TkAgg')
 
 
-def get_picture_detection(model, activation_model, number_of_classes):
+def get_picture_detection(model, activation_model, number_of_classes, classes_dict):
     local_path = os.path.abspath(os.path.dirname(__file__))
     test_dir = os.path.join(local_path, 'picture_test_full')
     # figure = plt.figure()
@@ -16,7 +16,7 @@ def get_picture_detection(model, activation_model, number_of_classes):
     print(f'Funkcja aktywacji: {activation_model.upper()}')
     for e, i in enumerate(os.listdir(test_dir)):
         print(e, i)
-        if i.startswith("cross") or i.startswith("stop"):
+        if i.startswith("cross") or i.startswith("stop") or i.startswith("limit") or i.startswith("no"):
             plt.figure()
             img = cv2.imread(os.path.join(test_dir, i))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -26,9 +26,14 @@ def get_picture_detection(model, activation_model, number_of_classes):
             ss.switchToSelectiveSearchFast()
             ssresults = ss.process()
             imout = img.copy()
-            found_points_list_cross = []
-            found_points_list_stop = []
-            found_points_list_limit50 = []
+            classes_list = list(classes_dict)
+            points_list_cross = []
+            points_list_stop = []
+            points_list_limit40 = []
+            points_list_limit50 = []
+            points_list_limit60 = []
+            points_list_limit70 = []
+            points_list_limit80 = []
             z += 1
             for s, result in enumerate(ssresults):
                 if s < 2000:
@@ -61,14 +66,22 @@ def get_picture_detection(model, activation_model, number_of_classes):
                                 pass
                         else:
                             pass
+
                     if found_point:
                         if found_point[0] == 0:
-                            found_points_list_cross.append(found_point)
+                            points_list_cross.append(found_point)
                         elif found_point[0] == 1:
-                            found_points_list_limit50.append(found_point)
+                            points_list_limit40.append(found_point)
+                        elif found_point[0] == 2:
+                            points_list_limit50.append(found_point)
                         elif found_point[0] == 3:
-                            found_points_list_stop.append(found_point)
-
+                            points_list_limit60.append(found_point)
+                        elif found_point[0] == 4:
+                            points_list_limit70.append(found_point)
+                        elif found_point[0] == 5:
+                            points_list_limit80.append(found_point)
+                        elif found_point[0] == 7:
+                            points_list_stop.append(found_point)
                     else:
                         pass
 
@@ -78,7 +91,6 @@ def get_picture_detection(model, activation_model, number_of_classes):
                 df.sort_values("probability", axis=0, ascending=False, inplace=True, na_position='last')
                 print(df)
                 max_probability = df.iloc[0]
-                class_highest = max_probability[0]
                 probability_highest = round(max_probability[1], 2)
                 probability_highest = '%.3f' % probability_highest
                 coordinate_highest = max_probability[2]
@@ -88,8 +100,20 @@ def get_picture_detection(model, activation_model, number_of_classes):
                     color_box = (255, 0, 0)
                 elif found_points_list[0][0] == 1:
                     color_box = (0, 255, 0)
+                    class_name = "Ograniczenie 40km/h"
+                elif found_points_list[0][0] == 2:
+                    color_box = (0, 255, 0)
                     class_name = "Ograniczenie 50km/h"
                 elif found_points_list[0][0] == 3:
+                    color_box = (0, 255, 0)
+                    class_name = "Ograniczenie 60km/h"
+                elif found_points_list[0][0] == 4:
+                    color_box = (0, 255, 0)
+                    class_name = "Ograniczenie 70km/h"
+                elif found_points_list[0][0] == 5:
+                    color_box = (0, 255, 0)
+                    class_name = "Ograniczenie 80km/h"
+                elif found_points_list[0][0] == 7:
                     color_box = (255, 255, 0)
                     class_name = "Stop"
                 else:
@@ -111,15 +135,31 @@ def get_picture_detection(model, activation_model, number_of_classes):
 
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 1, cv2.LINE_AA)
             try:
-                box_generator(found_points_list_cross)
+                box_generator(points_list_cross)
             except ValueError:
                 pass
             try:
-                box_generator(found_points_list_limit50)
+                box_generator(points_list_stop)
             except ValueError:
                 pass
             try:
-                box_generator(found_points_list_stop)
+                box_generator(points_list_limit40)
+            except ValueError:
+                pass
+            try:
+                box_generator(points_list_limit50)
+            except ValueError:
+                pass
+            try:
+                box_generator(points_list_limit60)
+            except ValueError:
+                pass
+            try:
+                box_generator(points_list_limit70)
+            except ValueError:
+                pass
+            try:
+                box_generator(points_list_limit80)
             except ValueError:
                 pass
             plt.xticks([])
@@ -127,4 +167,5 @@ def get_picture_detection(model, activation_model, number_of_classes):
             plt.imshow(imout)
             # plt.title('{} - {}'.format(probability_highest, class_name, fontsize=3))
         plt.show()
+
 

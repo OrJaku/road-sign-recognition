@@ -9,5 +9,6 @@ video_test_full
 additonal_pic/
 __pycache__/
 models_json_files/
+sign_temp/
 
 
