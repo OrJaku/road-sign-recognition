@@ -1,7 +1,7 @@
 import os
 from ml_model import ModelInit, classes
 from picture_detection import get_picture_detection
-from video_detection import get_video_detection
+# from video_detection import get_video_detection
 
 test_picture_folder_name = 'picture_test_full'
 
