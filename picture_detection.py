@@ -7,18 +7,16 @@ import cv2
 matplotlib.use('TkAgg')
 
 
-def get_picture_detection(model, activation_model, number_of_classes, classes_dict):
-    local_path = os.path.abspath(os.path.dirname(__file__))
-    test_dir = os.path.join(local_path, 'picture_test_full')
+def get_picture_detection(model, activation_model, number_of_classes, classes_dict, test_picture_direction):
     # figure = plt.figure()
     ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
     z = 0
     print(f'Funkcja aktywacji: {activation_model.upper()}')
-    for e, i in enumerate(os.listdir(test_dir)):
+    for e, i in enumerate(os.listdir(test_picture_direction)):
         print(e, i)
         if i.startswith("cross") or i.startswith("stop") or i.startswith("limit") or i.startswith("no"):
             plt.figure()
-            img = cv2.imread(os.path.join(test_dir, i))
+            img = cv2.imread(os.path.join(test_picture_direction, i))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             # plt.subplot(3, 4, z+1)
             # plt.tight_layout()
