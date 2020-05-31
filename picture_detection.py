@@ -18,6 +18,11 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
             plt.figure()
             img = cv2.imread(os.path.join(test_picture_direction, i))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            height_img, width_img, chanel_img = img.shape
+            if 0.9 <= height_img/width_img <= 1.1:
+                img = cv2.resize(img, (500, 500), interpolation=cv2.INTER_AREA)
+            else:
+                img = cv2.resize(img, (800, 600), interpolation=cv2.INTER_AREA)
             # plt.subplot(3, 4, z+1)
             # plt.tight_layout()
             ss.setBaseImage(img)
@@ -97,19 +102,19 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                     class_name = "Przejscie"
                     color_box = (255, 0, 0)
                 elif found_points_list[0][0] == 1:
-                    color_box = (0, 255, 0)
+                    color_box = (50, 255, 0)
                     class_name = "Ograniczenie 40km/h"
                 elif found_points_list[0][0] == 2:
-                    color_box = (0, 255, 0)
+                    color_box = (100, 255, 0)
                     class_name = "Ograniczenie 50km/h"
                 elif found_points_list[0][0] == 3:
-                    color_box = (0, 255, 0)
+                    color_box = (150, 255, 0)
                     class_name = "Ograniczenie 60km/h"
                 elif found_points_list[0][0] == 4:
-                    color_box = (0, 255, 0)
+                    color_box = (200, 255, 50)
                     class_name = "Ograniczenie 70km/h"
                 elif found_points_list[0][0] == 5:
-                    color_box = (0, 255, 0)
+                    color_box = (200, 200, 0)
                     class_name = "Ograniczenie 80km/h"
                 elif found_points_list[0][0] == 7:
                     color_box = (255, 255, 0)
@@ -118,7 +123,7 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                     class_name = "None"
                     color_box = (0, 0, 0)
                 print('Max probability {} - Class: {} \n'.format(probability_highest, class_name))
-                font_scale = 0.8
+                font_scale = 1.2
                 font = cv2.FONT_HERSHEY_PLAIN
                 text = f"{class_name}-{probability_highest}"
                 # cv2.rectangle(imout, (x, y), (x+20, y-10), rectangle_bgr, cv2.FILLED)
@@ -128,10 +133,10 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                             font,
                             fontScale=font_scale,
                             color=(255, 255, 255),
-                            thickness=1
+                            thickness=2
                             )
 
-                cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 1, cv2.LINE_AA)
+                cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 2, cv2.LINE_AA)
             try:
                 box_generator(points_list_cross)
             except ValueError:
