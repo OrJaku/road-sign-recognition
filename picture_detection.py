@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import os
 import cv2
 matplotlib.use('TkAgg')
@@ -14,6 +13,7 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
     z = 0
     print(f'Funkcja aktywacji: {activation_model.upper()}')
     for e, i in enumerate(os.listdir(test_picture_direction)):
+        b = 0
         print(e, i)
         if i.startswith("cross") or i.startswith("stop") or i.startswith("limit") or i.startswith("no"):
             plt.figure()
@@ -127,9 +127,9 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                 print('Max probability {} - Class: {} \n'.format(probability_highest, class_name))
                 font_scale = 1.2
                 font = cv2.FONT_HERSHEY_PLAIN
-                text = f"{class_name}-{probability_highest}"
+                title = f"{class_name}-{probability_highest}"
                 cv2.putText(imout,
-                            text,
+                            class_name,
                             (x, y),
                             font,
                             fontScale=font_scale,
@@ -140,44 +140,57 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 2, cv2.LINE_AA)
                 delta_box = 10
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
-                grid = plt.GridSpec(3, 4)  # 2 rows 3 cols
+                grid = plt.GridSpec(3, 5)  # 3 rows 5 cols
                 ax1 = plt.subplot(grid[:3, :3])
-                ax2 = plt.subplot(grid[0, 3])
-                ax2.imshow(sign_preview)
-                ax2.axes.xaxis.set_visible(False)
-                ax2.axes.yaxis.set_visible(False)
                 ax1.imshow(imout)
                 ax1.axes.xaxis.set_visible(False)
                 ax1.axes.yaxis.set_visible(False)
-                plt.tight_layout()
+                if b <= 3:
+                    col = 3
+                elif 3 < b <= 6:
+                    col = 4
+                else:
+                    col = 5
+                ax2 = plt.subplot(grid[0+b, col])
+                ax2.imshow(sign_preview)
+                ax2.axes.xaxis.set_visible(False)
+                ax2.axes.yaxis.set_visible(False)
+                ax2.set_title(title, fontsize=8)
             try:
                 box_generator(points_list_cross)
+                b += 1
             except ValueError:
                 pass
             try:
                 box_generator(points_list_stop)
+                b += 1
             except ValueError:
                 pass
             try:
                 box_generator(points_list_limit40)
+                b += 1
             except ValueError:
                 pass
             try:
                 box_generator(points_list_limit50)
+                b += 1
             except ValueError:
                 pass
             try:
                 box_generator(points_list_limit60)
+                b += 1
             except ValueError:
                 pass
             try:
                 box_generator(points_list_limit70)
+                b += 1
             except ValueError:
                 pass
             try:
                 box_generator(points_list_limit80)
+                b += 1
             except ValueError:
                 pass
-        plt.show()
-
-
+            # if b == 0:
+            #     plt.imshow(imout)
+    plt.show()
