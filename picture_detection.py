@@ -191,6 +191,6 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                 b += 1
             except ValueError:
                 pass
-            # if b == 0:
-            #     plt.imshow(imout)
-    plt.show()
+            if b == 0:
+                plt.imshow(imout)
+        plt.show()
