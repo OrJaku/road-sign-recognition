@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import os
 import cv2
 matplotlib.use('TkAgg')
@@ -24,11 +25,11 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
             else:
                 img = cv2.resize(img, (800, 600), interpolation=cv2.INTER_AREA)
             # plt.subplot(3, 4, z+1)
-            # plt.tight_layout()
             ss.setBaseImage(img)
             ss.switchToSelectiveSearchFast()
             ssresults = ss.process()
             imout = img.copy()
+            imout_crop = img.copy()
             classes_list = list(classes_dict)
             points_list_cross = []
             points_list_stop = []
@@ -89,6 +90,7 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                         pass
 
             def box_generator(found_points_list):
+                frame_thickness = 2
                 probability_list_array = np.array(found_points_list)
                 df = pd.DataFrame(data=probability_list_array, columns=["class", "probability", "coordinate"])
                 df.sort_values("probability", axis=0, ascending=False, inplace=True, na_position='last')
@@ -126,17 +128,28 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                 font_scale = 1.2
                 font = cv2.FONT_HERSHEY_PLAIN
                 text = f"{class_name}-{probability_highest}"
-                # cv2.rectangle(imout, (x, y), (x+20, y-10), rectangle_bgr, cv2.FILLED)
                 cv2.putText(imout,
                             text,
                             (x, y),
                             font,
                             fontScale=font_scale,
                             color=(255, 255, 255),
-                            thickness=2
+                            thickness=frame_thickness
                             )
 
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 2, cv2.LINE_AA)
+                delta_box = 10
+                sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
+                grid = plt.GridSpec(3, 4)  # 2 rows 3 cols
+                ax1 = plt.subplot(grid[:3, :3])
+                ax2 = plt.subplot(grid[0, 3])
+                ax2.imshow(sign_preview)
+                ax2.axes.xaxis.set_visible(False)
+                ax2.axes.yaxis.set_visible(False)
+                ax1.imshow(imout)
+                ax1.axes.xaxis.set_visible(False)
+                ax1.axes.yaxis.set_visible(False)
+                plt.tight_layout()
             try:
                 box_generator(points_list_cross)
             except ValueError:
@@ -165,10 +178,6 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                 box_generator(points_list_limit80)
             except ValueError:
                 pass
-            plt.xticks([])
-            plt.yticks([])
-            plt.imshow(imout)
-            # plt.title('{} - {}'.format(probability_highest, class_name, fontsize=3))
         plt.show()
 
 
