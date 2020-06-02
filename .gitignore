@@ -10,5 +10,6 @@ additonal_pic/
 __pycache__/
 models_json_files/
 sign_temp/
+figure_output/
 
 

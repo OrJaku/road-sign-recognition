@@ -7,7 +7,14 @@ import cv2
 matplotlib.use('TkAgg')
 
 
-def get_picture_detection(model, activation_model, number_of_classes, classes_dict, test_picture_direction):
+def get_picture_detection(model,
+                          activation_model,
+                          number_of_classes,
+                          classes_dict,
+                          test_picture_direction,
+                          save_figure,
+                          show_figure,
+                          ):
     # figure = plt.figure()
     ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
     z = 0
@@ -20,11 +27,26 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
             img = cv2.imread(os.path.join(test_picture_direction, i))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             height_img, width_img, chanel_img = img.shape
-            if 0.9 <= height_img/width_img <= 1.1:
-                img = cv2.resize(img, (500, 500), interpolation=cv2.INTER_AREA)
+            # Picture resizing
+            resized_width_value = 800
+            resize_parameter = width_img / resized_width_value
+            print("RES", resize_parameter)
+            if resize_parameter <= 1:
+                resized_width_value = 600
+                resized_height_value = 400
             else:
-                img = cv2.resize(img, (800, 600), interpolation=cv2.INTER_AREA)
+                resized_height_value = int(height_img / resize_parameter)
+            if 0.9 <= height_img/width_img <= 1.1:
+                resized_width_value = 700
+                resized_height_value = 700
+            else:
+                pass
+            img = cv2.resize(img, (resized_width_value, resized_height_value), interpolation=cv2.INTER_AREA)
             # plt.subplot(3, 4, z+1)
+            print(f'H(o/n): {height_img}/{resized_height_value} x '
+                  f'Width(o/n): {width_img}/{resized_width_value} '
+                  f'| Resize_parameter: {resize_parameter}'
+                  )
             ss.setBaseImage(img)
             ss.switchToSelectiveSearchFast()
             ssresults = ss.process()
@@ -63,7 +85,6 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                                 found_point.append(class_predicted)
                                 found_point.append(probability_percent)
                                 found_point.append(result)
-
                                 coordinate_temp.append(result)
                                 class_temp.append(class_predicted)
                             else:
@@ -140,18 +161,21 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 2, cv2.LINE_AA)
                 delta_box = 10
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
-                grid = plt.GridSpec(3, 5)  # 3 rows 5 cols
+                grid = plt.GridSpec(3, 6,
+                                    wspace=0.1,
+                                    hspace=0.1,
+                                    )
                 ax1 = plt.subplot(grid[:3, :3])
                 ax1.imshow(imout)
                 ax1.axes.xaxis.set_visible(False)
                 ax1.axes.yaxis.set_visible(False)
                 if b <= 3:
-                    col = 3
-                elif 3 < b <= 6:
                     col = 4
-                else:
+                elif 3 < b <= 6:
                     col = 5
-                ax2 = plt.subplot(grid[0+b, col])
+                else:
+                    col = 6
+                ax2 = plt.subplot(grid[0+b, 3:col])
                 ax2.imshow(sign_preview)
                 ax2.axes.xaxis.set_visible(False)
                 ax2.axes.yaxis.set_visible(False)
@@ -193,4 +217,15 @@ def get_picture_detection(model, activation_model, number_of_classes, classes_di
                 pass
             if b == 0:
                 plt.imshow(imout)
-        plt.show()
+            print(save_figure)
+        if save_figure:
+            plt.savefig(f'figure_output/figure_{i}.png')
+            print("Saved figure")
+        elif show_figure:
+            plt.show()
+        elif save_figure and show_figure:
+            plt.show()
+            plt.savefig(f'figure_output/figure_{i}.png')
+            print("Saved figure")
+        else:
+            pass
