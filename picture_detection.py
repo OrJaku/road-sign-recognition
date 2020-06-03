@@ -161,21 +161,16 @@ def get_picture_detection(model,
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 2, cv2.LINE_AA)
                 delta_box = 10
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
-                grid = plt.GridSpec(3, 6,
-                                    wspace=0.1,
-                                    hspace=0.1,
+                grid = plt.GridSpec(4, 6,
+                                    wspace=0.2,
+                                    hspace=0.2,
                                     )
                 ax1 = plt.subplot(grid[:3, :3])
                 ax1.imshow(imout)
                 ax1.axes.xaxis.set_visible(False)
                 ax1.axes.yaxis.set_visible(False)
-                if b <= 3:
-                    col = 4
-                elif 3 < b <= 6:
-                    col = 5
-                else:
-                    col = 6
-                ax2 = plt.subplot(grid[0+b, 3:col])
+
+                ax2 = plt.subplot(grid[0+b:1+b, 3])
                 ax2.imshow(sign_preview)
                 ax2.axes.xaxis.set_visible(False)
                 ax2.axes.yaxis.set_visible(False)
@@ -217,14 +212,13 @@ def get_picture_detection(model,
                 pass
             if b == 0:
                 plt.imshow(imout)
-            print(save_figure)
-        if save_figure:
+        if save_figure and show_figure:
+            plt.show()
             plt.savefig(f'figure_output/figure_{i}.png')
             print("Saved figure")
         elif show_figure:
             plt.show()
-        elif save_figure and show_figure:
-            plt.show()
+        elif save_figure:
             plt.savefig(f'figure_output/figure_{i}.png')
             print("Saved figure")
         else:
