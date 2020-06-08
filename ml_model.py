@@ -8,10 +8,10 @@ classes = {'cross': 0, 'limit40': 1, 'limit50': 2, 'limit60': 3, 'limit70': 4, '
 
 
 class ModelInit:
-    def __init__(self, picture_size, number_of_classes, activation_model, model_structure_file):
+    def __init__(self, picture_size, number_of_classes, model_weight_file, model_structure_file):
         self.picture_size = picture_size
         self.number_of_classes = number_of_classes
-        self.activation_model = activation_model
+        self.model_weight_file = model_weight_file
         self.model_structure_file = model_structure_file
         self._model = None
 
@@ -22,7 +22,7 @@ class ModelInit:
         return self._model
 
     def get_model(self):
-        with open(f'models_json_files/{self.model_structure_file}.json', 'r') as f:
+        with open(f'models_json_files/{self.model_structure_file}_2.json', 'r') as f:
             model = models.model_from_json(f.read())
         model.compile(
             loss='categorical_crossentropy',
@@ -36,7 +36,7 @@ class ModelInit:
     def load_model(self):
         print("Weights loaded")
         model = self.get_model()
-        model.load_weights('models_weights/model_signs_8_multi_classes_{}_2.h5'.format(self.activation_model))
+        model.load_weights('models_weights/{0}'.format(self.model_weight_file))
         return model
 
 # ///////////DISPLAYING IMAGES//////////

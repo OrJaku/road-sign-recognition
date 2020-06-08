@@ -12,6 +12,7 @@ def get_picture_detection(model,
                           number_of_classes,
                           classes_dict,
                           test_picture_direction,
+                          picture_size,
                           save_figure,
                           show_figure,
                           ):
@@ -30,7 +31,6 @@ def get_picture_detection(model,
             # Picture resizing
             resized_width_value = 800
             resize_parameter = width_img / resized_width_value
-            print("RES", resize_parameter)
             if resize_parameter <= 1:
                 resized_width_value = 600
                 resized_height_value = 400
@@ -65,7 +65,7 @@ def get_picture_detection(model,
                 if s < 2000:
                     x_point, y_point, wight, height = result
                     timage = imout[y_point:y_point + height, x_point:x_point+wight]
-                    resized = cv2.resize(timage, (100, 100), interpolation=cv2.INTER_AREA)
+                    resized = cv2.resize(timage, (picture_size, picture_size), interpolation=cv2.INTER_AREA)
                     img = np.expand_dims(resized, axis=0)
                     out = model.predict(img/255.0, batch_size=10)
                     square = wight/height
@@ -161,7 +161,7 @@ def get_picture_detection(model,
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 2, cv2.LINE_AA)
                 delta_box = 10
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
-                grid = plt.GridSpec(4, 6,
+                grid = plt.GridSpec(3, 6,
                                     wspace=0.2,
                                     hspace=0.2,
                                     )
@@ -170,11 +170,17 @@ def get_picture_detection(model,
                 ax1.axes.xaxis.set_visible(False)
                 ax1.axes.yaxis.set_visible(False)
 
-                ax2 = plt.subplot(grid[0+b:1+b, 3])
+                ax2 = plt.subplot(grid[0+b:1+b, 4])
                 ax2.imshow(sign_preview)
                 ax2.axes.xaxis.set_visible(False)
                 ax2.axes.yaxis.set_visible(False)
                 ax2.set_title(title, fontsize=8)
+                if b >= 4:
+                    ax3 = plt.subplot(grid[-3+b:-3+b, 4])
+                    ax3.imshow(sign_preview)
+                    ax3.axes.xaxis.set_visible(False)
+                    ax3.axes.yaxis.set_visible(False)
+                    ax3.set_title(title, fontsize=8)
             try:
                 box_generator(points_list_cross)
                 b += 1
@@ -214,12 +220,12 @@ def get_picture_detection(model,
                 plt.imshow(imout)
         if save_figure and show_figure:
             plt.show()
-            plt.savefig(f'figure_output/figure_{i}.png')
+            plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
             print("Saved figure")
         elif show_figure:
             plt.show()
         elif save_figure:
-            plt.savefig(f'figure_output/figure_{i}.png')
+            plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
             print("Saved figure")
         else:
             pass
