@@ -2,18 +2,6 @@ import json
 import os
 import csv
 
-# label_of_sign = "information--pedestrians-crossing--g1" # znak przejścia dla pieszych
-# label_of_sign = "regulatory--stop--g1" # znak stop
-# label_of_sign = "regulatory--stop--g10" # znak stop2
-# label_of_sign = "regulatory--maximum-speed-limit-50--g1"  #znak ograniczenia predkosco do 50km/h
-# label_of_sign = "warning--pedestrians-crossing--g5" # znak przejscia dla pieszych ostrzeg. 
-# label_of_sign = "warning--railroad-crossing--g3" # przejazd kolejowy
-# label_of_sign = "warning--railroad-crossing-with-barriers--g1" # przejazd kolejowy z barierami 
-
-labels_list = [
-               "regulatory--maximum-speed-limit-80--g1",
-                ]
-
 
 def find_signs(path_to_fully_images, labels_to_find, save_csv_directory='output', load_json_file_directory='annotations'):
     print("""

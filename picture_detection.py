@@ -10,13 +10,11 @@ matplotlib.use('TkAgg')
 def get_picture_detection(model,
                           activation_model,
                           number_of_classes,
-                          classes_dict,
                           test_picture_direction,
                           picture_size,
                           save_figure,
                           show_figure,
                           ):
-    # figure = plt.figure()
     ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
     z = 0
     print(f'Funkcja aktywacji: {activation_model.upper()}')
@@ -52,7 +50,6 @@ def get_picture_detection(model,
             ssresults = ss.process()
             imout = img.copy()
             imout_crop = img.copy()
-            classes_list = list(classes_dict)
             points_list_cross = []
             points_list_stop = []
             points_list_limit40 = []
@@ -76,7 +73,7 @@ def get_picture_detection(model,
                         probability_percent = out[0][class_predicted]
                         if class_predicted != 2:
                             if activation_model == 'softmax':
-                                probability_threshold = 0.9
+                                probability_threshold = 0.93
                             elif activation_model == 'sigmoid':
                                 probability_threshold = 0.8
                             else:
@@ -161,26 +158,21 @@ def get_picture_detection(model,
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 2, cv2.LINE_AA)
                 delta_box = 10
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
-                grid = plt.GridSpec(3, 6,
+                grid = plt.GridSpec(6, 6,
                                     wspace=0.2,
-                                    hspace=0.2,
+                                    hspace=0.5,
                                     )
-                ax1 = plt.subplot(grid[:3, :3])
+                ax1 = plt.subplot(grid[:5, :5])
                 ax1.imshow(imout)
                 ax1.axes.xaxis.set_visible(False)
                 ax1.axes.yaxis.set_visible(False)
 
-                ax2 = plt.subplot(grid[0+b:1+b, 4])
+                ax2 = plt.subplot(grid[b:1+b, 5:])
                 ax2.imshow(sign_preview)
                 ax2.axes.xaxis.set_visible(False)
                 ax2.axes.yaxis.set_visible(False)
                 ax2.set_title(title, fontsize=8)
-                if b >= 4:
-                    ax3 = plt.subplot(grid[-3+b:-3+b, 4])
-                    ax3.imshow(sign_preview)
-                    ax3.axes.xaxis.set_visible(False)
-                    ax3.axes.yaxis.set_visible(False)
-                    ax3.set_title(title, fontsize=8)
+
             try:
                 box_generator(points_list_cross)
                 b += 1

@@ -9,6 +9,12 @@
   {"Ograniczenie_predkosci_100km/h": "regulatory--maximum-speed-limit-100--g1"},
   {"Przejscie_dla_pieszych_ostrzegawczy": "warning--pedestrians-crossing--g5"},
   {"Przejazd_kolejowy": "warning--railroad-crossing--g3"},
-  {"Przejazd_kolejowy_z_barierami": "warning--railroad-crossing-with-barriers--g1"}
+  {"Przejazd_kolejowy_z_barierami": "warning--railroad-crossing-with-barriers--g1"},
+  {"Trzymaj sie lewej": "regulatory--keep-left--g1"},
+  {"Trzymaj sie prawej 2": "regulatory--keep-right--g2"},
+  {"Trzymaj sie lewej 2": "regulatory--keep-left--g2"},
+  {"Trzymaj sie prawej": "regulatory--keep-right--g1"},
+  {"Prawa strona": "complementary--keep-right--g1"},
+  {"Lewa strona": "complementary--keep-left--g1"}
 
 ]

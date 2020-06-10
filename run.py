@@ -28,6 +28,7 @@ while True:
         break
     else:
         print("Zła funkcja aktywacji")
+        activation_model = None
         break
 
 i = 1
@@ -51,8 +52,8 @@ get_picture_detection(model,
                       classes,
                       test_picture_direction,
                       picture_size=picture_size,
-                      save_figure=False,
-                      show_figure=True
+                      save_figure=True,
+                      show_figure=False
                       )
 
 # Video detection

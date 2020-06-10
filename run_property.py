@@ -6,16 +6,23 @@ from copy_files import copy_files
 from signs_list import signs_list
 
 labels_list = [
-    "warning--railroad-crossing-with-barriers--g1",
+    "regulatory--keep-left--g1",
+    "regulatory--keep-right--g2",
+    "complementary--keep-right--g1",
+    "regulatory--keep-left--g2",
+    "regulatory--keep-right--g1",
+    "complementary--keep-left--g1",
+    "regulatory--yield--g1"
 ]
+
 
 local_path = os.path.abspath(os.path.dirname(__file__))  # ścieżka lokalna folderu z danymi
 
 # # Windows
 # external_path = "\\\\Dell-komputer\img_mgr\mtsd_fully_annotated" #ścieżka sieciowa folderu z danymi
 # Ubuntu
-# external_path = "/run/user/1000/gvfs/smb-share:server=dell-komputer,share=img_mgr/mtsd_fully_annotated"
-external_path = "/media/kuba-ubuntu/UUI/test_MGR"
+external_path = "/run/user/1000/gvfs/smb-share:server=dell-komputer,share=img_mgr/mtsd_fully_annotated"
+# external_path = "/media/kuba-ubuntu/UUI/test_MGR"
 output_media_usb_path = "/media/kuba-ubuntu/UUI/img_mgr"
 cut_image_out_directory = "/home/kuba-ubuntu/img_mgr_out"
 dataset_directory = os.path.abspath("/home/kuba-ubuntu/Pobrane/Data")
