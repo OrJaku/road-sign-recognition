@@ -44,12 +44,10 @@ choose_weight_file = int(input("Wybierz plik [liczba]: "))
 model_weight_file = weight_files_dict[choose_weight_file]
 model_init = ModelInit(picture_size, number_of_classes, model_weight_file, model_structure_name)
 model = model_init.model
-
 # Picture detection
 get_picture_detection(model,
                       activation_model,
                       model_init.number_of_classes,
-                      classes,
                       test_picture_direction,
                       picture_size=picture_size,
                       save_figure=True,
