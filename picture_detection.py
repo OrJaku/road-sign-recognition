@@ -145,7 +145,9 @@ def get_picture_detection(model,
                 print('Max probability {} - Class: {} \n'.format(probability_highest, class_name))
                 font_scale = 1.2
                 font = cv2.FONT_HERSHEY_PLAIN
-                title = f"{class_name}-{probability_highest}"
+                probability_highest_percent = float(probability_highest) * 100
+                print("TEST:", probability_highest_percent)
+                title = f"{class_name}-{probability_highest_percent}%"
                 cv2.putText(imout,
                             class_name,
                             (x, y),
