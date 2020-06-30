@@ -50,8 +50,8 @@ get_picture_detection(model,
                       model_init.number_of_classes,
                       test_picture_direction,
                       picture_size=picture_size,
-                      save_figure=True,
-                      show_figure=False
+                      save_figure=False,
+                      show_figure=True
                       )
 
 # Video detection
