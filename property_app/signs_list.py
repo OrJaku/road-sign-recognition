@@ -3,7 +3,7 @@ import os
 
 
 def signs_list(local_path, json_file_name="signs.json"):
-    json_file = os.path.join(local_path, json_file_name)
+    json_file = os.path.join(local_path,json_file_name)
     with open(json_file, "r") as f:
         steam = json.load(f)
         for n, sign in enumerate(steam):

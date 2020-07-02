@@ -1,9 +1,9 @@
 import os
-from find_signs_JSON import find_signs
-from chose_image import chose_image
-from cutting_sign import cutting_sign
-from copy_files import copy_files
-from signs_list import signs_list
+from property_app.find_signs_JSON import find_signs
+from property_app.chose_image import chose_image
+from property_app.cutting_sign import cutting_sign
+from property_app.copy_files import copy_files
+from property_app.signs_list import signs_list
 
 labels_list = [
     "regulatory--keep-left--g1",
@@ -17,7 +17,7 @@ labels_list = [
 
 
 local_path = os.path.abspath(os.path.dirname(__file__))  # ścieżka lokalna folderu z danymi
-
+local_path = os.path.join(local_path, "property_app")
 # # Windows
 # external_path = "\\\\Dell-komputer\img_mgr\mtsd_fully_annotated" #ścieżka sieciowa folderu z danymi
 # Ubuntu
