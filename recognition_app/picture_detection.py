@@ -143,21 +143,11 @@ def get_picture_detection(model,
                     class_name = "None"
                     color_box = (0, 0, 0)
                 print('Max probability {} - Class: {} \n'.format(probability_highest, class_name))
-                font_scale = 1.2
-                font = cv2.FONT_HERSHEY_PLAIN
                 probability_highest_percent = float(probability_highest) * 100
                 title = f"{class_name}-{probability_highest_percent}%"
-                # cv2.putText(imout,
-                #             class_name,
-                #             (x, y),
-                #             font,
-                #             fontScale=font_scale,
-                #             color=(255, 255, 255),
-                #             thickness=frame_thickness
-                #             )
 
-                cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, 2, cv2.LINE_AA)
-                delta_box = 10
+                cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, frame_thickness, cv2.LINE_AA)
+                delta_box = 8
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
                 grid = plt.GridSpec(6, 6,
                                     wspace=0.2,
