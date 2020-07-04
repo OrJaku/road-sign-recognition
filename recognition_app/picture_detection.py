@@ -57,6 +57,8 @@ def get_picture_detection(model,
             points_list_limit60 = []
             points_list_limit70 = []
             points_list_limit80 = []
+            points_list_yield = []
+
             z += 1
             for s, result in enumerate(ssresults):
                 if s < 2000:
@@ -102,8 +104,11 @@ def get_picture_detection(model,
                             points_list_limit70.append(found_point)
                         elif found_point[0] == 5:
                             points_list_limit80.append(found_point)
-                        elif found_point[0] == 7:
+                        elif found_point[0] == 8:
                             points_list_stop.append(found_point)
+                        elif found_point[0] == 9:
+                            points_list_yield.append(found_point)
+
                     else:
                         pass
 
@@ -136,9 +141,12 @@ def get_picture_detection(model,
                 elif found_points_list[0][0] == 5:
                     color_box = (200, 200, 0)
                     class_name = "Ograniczenie 80km/h"
-                elif found_points_list[0][0] == 7:
+                elif found_points_list[0][0] == 8:
                     color_box = (255, 255, 0)
                     class_name = "Stop"
+                elif found_points_list[0][0] == 9:
+                    color_box = (200, 100, 100)
+                    class_name = "Ustąp pierwszaństwo"
                 else:
                     class_name = "None"
                     color_box = (0, 0, 0)
@@ -196,6 +204,11 @@ def get_picture_detection(model,
                 pass
             try:
                 box_generator(points_list_limit80)
+                b += 1
+            except ValueError:
+                pass
+            try:
+                box_generator(points_list_yield)
                 b += 1
             except ValueError:
                 pass

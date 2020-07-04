@@ -4,7 +4,17 @@ import os
 matplotlib.use('TkAgg')
 
 local_path = os.path.abspath(os.path.dirname(__file__))
-classes = {'cross': 0, 'limit40': 1, 'limit50': 2, 'limit60': 3, 'limit70': 4, 'limit80': 5, 'nosign': 6, 'stop': 7}
+classes = {'cross': 0,
+           'limit40': 1,
+           'limit50': 2,
+           'limit60': 3,
+           'limit70': 4,
+           'limit80': 5,
+           'nosign': 6,
+           'othersign': 7,
+           'stop': 8,
+           'yield': 9,
+           }
 
 
 class ModelInit:
@@ -22,7 +32,7 @@ class ModelInit:
         return self._model
 
     def get_model(self):
-        with open(f'models_json_files/{self.model_structure_file}_2.json', 'r') as f:
+        with open(f'models_json_files/{self.model_structure_file}.json', 'r') as f:
             model = models.model_from_json(f.read())
         model.compile(
             loss='categorical_crossentropy',

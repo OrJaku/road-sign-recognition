@@ -10,11 +10,10 @@ test_picture_direction = os.path.join(local_path, test_picture_folder_name)
 model_weight_file = os.path.join(local_path, 'models_weights')
 weight_files_list = os.listdir(model_weight_file)
 
-model_structure_name = 'model_5conv'
+model_structure_name = 'model_10conv'
 picture_size = 96
 number_of_classes = len(classes)
-# activation_model = "softmax"  # prawdopodobieństwo 1 podzielone na ilość klas
-# activation_model = "sigmoid"  # procent prawdopodobieństwa
+print("Liczba klas: {}".format(number_of_classes))
 print("1. SOFTMAX (prawdopodobieństwo wystąpienia= 1, podzielone na ilość klas)")
 print("2. SIGMOID (procent prawdopodobieństwa każdej  klasy)")
 
