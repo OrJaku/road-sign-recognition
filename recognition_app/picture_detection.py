@@ -145,7 +145,7 @@ def get_picture_detection(model,
                     color_box = (255, 255, 0)
                     class_name = "Stop"
                 elif found_points_list[0][0] == 9:
-                    color_box = (200, 100, 100)
+                    color_box = (200, 50, 200)
                     class_name = "Ustąp pierwszaństwo"
                 else:
                     class_name = "None"
@@ -157,8 +157,8 @@ def get_picture_detection(model,
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, frame_thickness, cv2.LINE_AA)
                 delta_box = 8
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
-                grid = plt.GridSpec(6, 6,
-                                    wspace=0.2,
+                grid = plt.GridSpec(6, 7,
+                                    wspace=0.1,
                                     hspace=0.5,
                                     )
                 ax1 = plt.subplot(grid[:5, :5])
@@ -166,7 +166,7 @@ def get_picture_detection(model,
                 ax1.axes.xaxis.set_visible(False)
                 ax1.axes.yaxis.set_visible(False)
 
-                ax2 = plt.subplot(grid[b:1+b, 5:])
+                ax2 = plt.subplot(grid[b:1+b, 6:])
                 ax2.imshow(sign_preview)
                 ax2.axes.xaxis.set_visible(False)
                 ax2.axes.yaxis.set_visible(False)
