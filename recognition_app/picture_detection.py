@@ -75,7 +75,7 @@ def get_picture_detection(model,
                         probability_percent = out[0][class_predicted]
                         if class_predicted != 2:
                             if activation_model == 'softmax':
-                                probability_threshold = 0.93
+                                probability_threshold = 0.98
                             elif activation_model == 'sigmoid':
                                 probability_threshold = 0.8
                             else:
