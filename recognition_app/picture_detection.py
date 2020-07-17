@@ -21,7 +21,11 @@ def get_picture_detection(model,
     for e, i in enumerate(os.listdir(test_picture_direction)):
         b = 0
         print(e, i)
-        if i.startswith("cross") or i.startswith("stop") or i.startswith("limit") or i.startswith("no"):
+        if i.startswith("cross") or \
+                i.startswith("stop") or \
+                i.startswith("limit") or \
+                i.startswith("yield") or \
+                i.startswith("no"):
             plt.figure()
             img = cv2.imread(os.path.join(test_picture_direction, i))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -34,15 +38,15 @@ def get_picture_detection(model,
                 resized_height_value = 400
             else:
                 resized_height_value = int(height_img / resize_parameter)
-            if 0.9 <= height_img/width_img <= 1.1:
-                resized_width_value = 700
-                resized_height_value = 700
+            if 0.85 <= height_img/width_img <= 1.2:
+                resized_width_value = 600
+                resized_height_value = 600
             else:
                 pass
             img = cv2.resize(img, (resized_width_value, resized_height_value), interpolation=cv2.INTER_AREA)
             # plt.subplot(3, 4, z+1)
-            print(f'H(o/n): {height_img}/{resized_height_value} x '
-                  f'Width(o/n): {width_img}/{resized_width_value} '
+            print(f'Previous (h/w): {height_img}/{width_img}  '
+                  f'New (h/w): {resized_height_value}/{resized_width_value} '
                   f'| Resize_parameter: {resize_parameter}'
                   )
             ss.setBaseImage(img)
@@ -157,6 +161,12 @@ def get_picture_detection(model,
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, frame_thickness, cv2.LINE_AA)
                 delta_box = 8
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
+                try:
+                    sign_preview = cv2.resize(sign_preview,
+                                              (int(sign_preview.shape[1]*1.5), int(sign_preview.shape[0]*1.5)),
+                                              interpolation=cv2.INTER_AREA)
+                except cv2.error:
+                    pass
                 grid = plt.GridSpec(6, 7,
                                     wspace=0.1,
                                     hspace=0.5,
