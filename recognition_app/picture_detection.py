@@ -45,9 +45,9 @@ def get_picture_detection(model,
                 pass
             img = cv2.resize(img, (resized_width_value, resized_height_value), interpolation=cv2.INTER_AREA)
             # plt.subplot(3, 4, z+1)
-            print(f'Previous (h/w): {height_img}/{width_img}  '
-                  f'New (h/w): {resized_height_value}/{resized_width_value} '
-                  f'| Resize_parameter: {resize_parameter}'
+            print(f'Poprzednie (h/w): {height_img}/{width_img}  '
+                  f'Nowe (h/w): {resized_height_value}/{resized_width_value} '
+                  f'| Parametr zmiany wielkości: {resize_parameter}'
                   )
             ss.setBaseImage(img)
             ss.switchToSelectiveSearchFast()
@@ -119,8 +119,8 @@ def get_picture_detection(model,
             def box_generator(found_points_list):
                 frame_thickness = 2
                 probability_list_array = np.array(found_points_list)
-                df = pd.DataFrame(data=probability_list_array, columns=["class", "probability", "coordinate"])
-                df.sort_values("probability", axis=0, ascending=False, inplace=True, na_position='last')
+                df = pd.DataFrame(data=probability_list_array, columns=["klasa", "prawdopodobieństwo", "położenie"])
+                df.sort_values("prawdopodobieństwo", axis=0, ascending=False, inplace=True, na_position='last')
                 print(df)
                 max_probability = df.iloc[0]
                 probability_highest = round(max_probability[1], 2)
@@ -154,7 +154,7 @@ def get_picture_detection(model,
                 else:
                     class_name = "None"
                     color_box = (0, 0, 0)
-                print('Max probability {} - Class: {} \n'.format(probability_highest, class_name))
+                print('Maxymalne prawdopodobieństwo {} - Klasa: {} \n'.format(probability_highest, class_name))
                 probability_highest_percent = float(probability_highest) * 100
                 title = f"{class_name}-{probability_highest_percent}%"
 
@@ -163,7 +163,7 @@ def get_picture_detection(model,
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
                 try:
                     sign_preview = cv2.resize(sign_preview,
-                                              (int(sign_preview.shape[1]*1.5), int(sign_preview.shape[0]*1.5)),
+                                              (int(sign_preview.shape[1]*2), int(sign_preview.shape[0]*2)),
                                               interpolation=cv2.INTER_AREA)
                 except cv2.error:
                     pass
@@ -227,11 +227,11 @@ def get_picture_detection(model,
         if save_figure and show_figure:
             plt.show()
             plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
-            print("Saved figure")
+            print("Obraz zapisany")
         elif show_figure:
             plt.show()
         elif save_figure:
             plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
-            print("Saved figure")
+            print("Obraz zapisany")
         else:
             pass

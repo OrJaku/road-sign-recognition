@@ -1,7 +1,6 @@
 import os
 from recognition_app.ml_model import ModelInit, classes
 from recognition_app.picture_detection import get_picture_detection
-# from video_detection import get_video_detection
 
 test_picture_folder_name = 'picture_test_full'
 
@@ -14,7 +13,7 @@ model_structure_name = 'model_10conv'
 picture_size = 96
 number_of_classes = len(classes)
 print("Liczba klas: {}".format(number_of_classes))
-print("1. SOFTMAX (prawdopodobieństwo wystąpienia= 1, podzielone na ilość klas)")
+print("1. SOFTMAX (prawdopodobieństwo wystąpienia, podzielone na ilość klas)")
 print("2. SIGMOID (procent prawdopodobieństwa każdej  klasy)")
 
 while True:
