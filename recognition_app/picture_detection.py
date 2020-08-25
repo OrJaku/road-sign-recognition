@@ -163,8 +163,7 @@ def get_picture_detection(model,
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
                 try:
                     sign_preview = cv2.resize(sign_preview,
-                                              (int(sign_preview.shape[1]*2), int(sign_preview.shape[0]*2)),
-                                              interpolation=cv2.INTER_AREA)
+                                              (int(sign_preview.shape[1]*3), int(sign_preview.shape[0]*3)))
                 except cv2.error:
                     pass
                 grid = plt.GridSpec(6, 7,
@@ -173,15 +172,16 @@ def get_picture_detection(model,
                                     )
                 ax1 = plt.subplot(grid[:5, :5])
                 ax1.imshow(imout)
-                ax1.axes.xaxis.set_visible(False)
-                ax1.axes.yaxis.set_visible(False)
+                # ax1.axes.xaxis.set_visible(False)
+                # ax1.axes.yaxis.set_visible(False)
+                ax1.axis('off')
 
-                ax2 = plt.subplot(grid[b:1+b, 6:])
+                ax2 = plt.subplot(grid[b:2+b, 6:])
                 ax2.imshow(sign_preview)
-                ax2.axes.xaxis.set_visible(False)
-                ax2.axes.yaxis.set_visible(False)
+                # ax2.axes.xaxis.set_visible(False)
+                # ax2.axes.yaxis.set_visible(False)
                 ax2.set_title(title, fontsize=8)
-
+                ax2.axis('off')
             try:
                 box_generator(points_list_cross)
                 b += 1
@@ -231,6 +231,7 @@ def get_picture_detection(model,
         elif show_figure:
             plt.show()
         elif save_figure:
+            plt.show()
             plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
             print("Obraz zapisany")
         else:
