@@ -13,8 +13,9 @@ weight_files_list = os.listdir(model_weight_file)
 parser = argparse.ArgumentParser()
 parser.add_argument("--activ_func", help="Wybierz funkcje aktywacji")
 parser.add_argument("--model_file", help="Wybierz plik z modelem")
+parser.add_argument("--save", action="store_true")
+parser.add_argument("--stopshow", action="store_false")
 args = parser.parse_args()
-
 model_structure_name = 'model_10conv'
 picture_size = 96
 number_of_classes = len(classes)
@@ -53,17 +54,17 @@ if not args.model_file:
     model_weight_file = weight_files_dict[choose_weight_file]
 else:
     model_weight_file = args.model_file
-
 model_init = ModelInit(picture_size, number_of_classes, model_weight_file, model_structure_name)
 model = model_init.model
+print(f"Wyświetlanie zdjęć: {args.stopshow} | Zapis zdjęć: {args.save} ")
 # Picture detection
 get_picture_detection(model,
                       activation_model,
                       model_init.number_of_classes,
                       test_picture_direction,
                       picture_size=picture_size,
-                      save_figure=False,
-                      show_figure=True
+                      save_figure=args.save,
+                      show_figure=args.stopshow
                       )
 
 # Video detection

@@ -154,7 +154,7 @@ def get_picture_detection(model,
                 else:
                     class_name = "None"
                     color_box = (0, 0, 0)
-                print('Maxymalne prawdopodobieństwo {} - Klasa: {} \n'.format(probability_highest, class_name))
+                print('Maksymalne prawdopodobieństwo {} - Klasa: {} \n'.format(probability_highest, class_name))
                 probability_highest_percent = float(probability_highest) * 100
                 title = f"{class_name}-{probability_highest_percent}%"
 
@@ -225,13 +225,14 @@ def get_picture_detection(model,
             if b == 0:
                 plt.imshow(imout)
         if save_figure and show_figure:
-            plt.show()
             plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
-            print("Obraz zapisany")
+            plt.show()
+            print("Obraz zapisany i wyświetlony")
         elif show_figure:
             plt.show()
+            print("Obraz wyświetlony")
+
         elif save_figure:
-            plt.show()
             plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
             print("Obraz zapisany")
         else:
