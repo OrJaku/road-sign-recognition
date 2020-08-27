@@ -163,7 +163,7 @@ def get_picture_detection(model,
                 sign_preview = imout_crop[y-delta_box:y+h+delta_box, x-delta_box:x+w+delta_box]
                 try:
                     sign_preview = cv2.resize(sign_preview,
-                                              (int(sign_preview.shape[1]*3), int(sign_preview.shape[0]*3)))
+                                              (int(sign_preview.shape[1]*1.5), int(sign_preview.shape[0]*1.5)))
                 except cv2.error:
                     pass
                 grid = plt.GridSpec(6, 7,
@@ -176,7 +176,7 @@ def get_picture_detection(model,
                 # ax1.axes.yaxis.set_visible(False)
                 ax1.axis('off')
 
-                ax2 = plt.subplot(grid[b:2+b, 6:])
+                ax2 = plt.subplot(grid[b:1+b, 5:])
                 ax2.imshow(sign_preview)
                 # ax2.axes.xaxis.set_visible(False)
                 # ax2.axes.yaxis.set_visible(False)
@@ -223,6 +223,7 @@ def get_picture_detection(model,
             except ValueError:
                 pass
             if b == 0:
+                plt.axis('off')
                 plt.imshow(imout)
         if save_figure and show_figure:
             plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
