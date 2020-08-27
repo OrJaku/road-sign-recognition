@@ -121,7 +121,8 @@ def get_picture_detection(model,
                 probability_list_array = np.array(found_points_list)
                 df = pd.DataFrame(data=probability_list_array, columns=["klasa", "prawdopodobieństwo", "położenie"])
                 df.sort_values("prawdopodobieństwo", axis=0, ascending=False, inplace=True, na_position='last')
-                print(df)
+
+                print(df.iloc[:2])
                 max_probability = df.iloc[0]
                 probability_highest = round(max_probability[1], 2)
                 probability_highest = '%.3f' % probability_highest
@@ -154,8 +155,9 @@ def get_picture_detection(model,
                 else:
                     class_name = "None"
                     color_box = (0, 0, 0)
-                print('Maksymalne prawdopodobieństwo {} - Klasa: {} \n'.format(probability_highest, class_name))
                 probability_highest_percent = float(probability_highest) * 100
+                print('Maksymalne prawdopodobieństwo {}% - Klasa: {}'.format(probability_highest_percent, class_name))
+
                 title = f"{class_name}-{probability_highest_percent}%"
 
                 cv2.rectangle(imout, (x, y), (x+w, y+h), color_box, frame_thickness, cv2.LINE_AA)
@@ -172,14 +174,10 @@ def get_picture_detection(model,
                                     )
                 ax1 = plt.subplot(grid[:5, :5])
                 ax1.imshow(imout)
-                # ax1.axes.xaxis.set_visible(False)
-                # ax1.axes.yaxis.set_visible(False)
                 ax1.axis('off')
 
                 ax2 = plt.subplot(grid[b:1+b, 5:])
                 ax2.imshow(sign_preview)
-                # ax2.axes.xaxis.set_visible(False)
-                # ax2.axes.yaxis.set_visible(False)
                 ax2.set_title(title, fontsize=8)
                 ax2.axis('off')
             try:
@@ -228,13 +226,14 @@ def get_picture_detection(model,
         if save_figure and show_figure:
             plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
             plt.show()
-            print("Obraz zapisany i wyświetlony")
+            print("Obraz zapisany i wyświetlony\n")
         elif show_figure:
             plt.show()
-            print("Obraz wyświetlony")
-
+            print("Obraz wyświetlony\n")
         elif save_figure:
             plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
-            print("Obraz zapisany")
+            print("Obraz zapisany\n")
         else:
             pass
+        print("===================================================")
+
