@@ -6,15 +6,11 @@ from property_app.copy_files import copy_files
 from property_app.signs_list import signs_list
 
 labels_list = [
-    "regulatory--keep-left--g1",
-    "regulatory--keep-right--g2",
-    "complementary--keep-right--g1",
-    "regulatory--keep-left--g2",
-    "regulatory--keep-right--g1",
-    "complementary--keep-left--g1",
-    "regulatory--yield--g1"
-]
-
+    "regulatory--no-overtaking--g5",
+    "regulatory--no-overtaking--g2",
+    "regulatory--no-overtaking--g4",
+    "regulatory--no-overtaking--g1",
+    ]
 
 local_path = os.path.abspath(os.path.dirname(__file__))  # ścieżka lokalna folderu z danymi
 local_path = os.path.join(local_path, "property_app")
