@@ -15,6 +15,9 @@
   {"Trzymaj sie lewej 2": "regulatory--keep-left--g2"},
   {"Trzymaj sie prawej": "regulatory--keep-right--g1"},
   {"Prawa strona": "complementary--keep-right--g1"},
-  {"Lewa strona": "complementary--keep-left--g1"}
+  {"Lewa strona": "complementary--keep-left--g1"},
+  {"Zakaz wyprzedzania": "regulatory--no-overtaking--g4"},
+  {"Zakaz wyprzedzania 2": "regulatory--no-overtaking--g1"},
+  {"Zakaz wyprzedzania 3": "regulatory--no-overtaking--g5"}
 
 ]
