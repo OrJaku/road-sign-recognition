@@ -1,10 +1,9 @@
 import os
-import csv
 import shutil
 
 
 def chose_image(
-                local_path,
+                local_path_of_app,
                 path_to_fully_images,
                 copy_chose_image_directory,
                 labels_chose,
@@ -16,7 +15,7 @@ def chose_image(
     path_to_labels = os.path.join(path_to_fully_images, load_json_file_directory)
 
     for label_of_sign in labels_chose:
-        output_files = os.path.join(local_path, csv_with_labels_directory)
+        output_files = os.path.join(local_path_of_app, csv_with_labels_directory)
         print("Output path", output_files)
         folder_with_filtered_images = os.path.join(copy_chose_image_directory, f'{label_of_sign}')
         try:
@@ -31,9 +30,7 @@ def chose_image(
         i = 1
         j = 1
         k = 1
-        with open(f'output/imagelist_label_{label_of_sign}.csv', mode="r") as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            line_count = 0
+        with open(f'property_app/output/imagelist_label_{label_of_sign}.csv', mode="r") as csv_file:
             for name in csv_file:
                 k += 1
                 name_img = name[:-1]
@@ -41,11 +38,9 @@ def chose_image(
                 print(name_img)
                 print(f"Converted: {k} files")
             print(signs_csv_img_list)
-
         for img_name in files_lable_list:
             j += 1
             print(f"Checked: {j} files")
-
             img_name = img_name[:-5]
             img_json_name = img_name + ".json"
             img_jpg_name = img_name + ".jpg"
