@@ -26,7 +26,7 @@ def chose_image(
                 print(f"Dir {label_of_sign} exist")
                 existing_directory_check = input(f"Czy usunąć folder {label_of_sign} i stworzyć nowy ? [y/n]")
                 if existing_directory_check == 'y':
-                    os.rmdir(folder_with_filtered_images)
+                    shutil. rmtree(folder_with_filtered_images)
                     os.mkdir(folder_with_filtered_images)
                     break
                 elif existing_directory_check == 'n':
