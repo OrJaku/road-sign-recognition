@@ -20,9 +20,19 @@ def chose_image(
         folder_with_filtered_images = os.path.join(copy_chose_image_directory, f'{label_of_sign}')
         try:
             os.mkdir(folder_with_filtered_images)
+
         except FileExistsError:
-            print(f"Dir {label_of_sign} exist")
-            continue
+            while True:
+                print(f"Dir {label_of_sign} exist")
+                existing_directory_check = input(f"Czy usunąć folder {label_of_sign} i stworzyć nowy ? [y/n]")
+                if existing_directory_check == 'y':
+                    os.rmdir(folder_with_filtered_images)
+                    os.mkdir(folder_with_filtered_images)
+                    break
+                elif existing_directory_check == 'n':
+                    break
+                else:
+                    pass
         files_lable_list = os.listdir(path_to_labels)
         files_list_with_csv = os.listdir(output_files)
         print(files_list_with_csv)
