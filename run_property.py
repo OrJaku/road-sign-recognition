@@ -35,10 +35,13 @@ while True:
     """)
     resp = input("Wybierz: ")
     if resp == "1":
+        # from external path '/annotations' files, save to CSV in 'property_app/output'
         find_signs(external_path, labels_list)
     elif resp == "2":
+        # CSV (lists) in 'property_app/output', copy to flash- '/media/kuba-ubuntu/UUI/img_mgr'
         chose_image(local_path, external_path, output_media_usb_path, labels_list)
     elif resp == "3":
+        # from flash- '/media/kuba-ubuntu/UUI/img_mgr' cut and save in local- '/home/kuba-ubuntu/img_mgr_out'
         while True:
             # If nosign -> nosign=True and choose shift parameters delta_x/y
             print("""
@@ -63,6 +66,7 @@ while True:
             else:
                 break
     elif resp == "4":
+        # Copy from '/home/kuba-ubuntu/img_mgr_out' to dataset (train/valid/test) in '/home/kuba-ubuntu/Pobrane/Data'
         copy_files(cut_image_out_directory, dataset_directory)
     elif resp == "9":
         signs_list(local_path)
