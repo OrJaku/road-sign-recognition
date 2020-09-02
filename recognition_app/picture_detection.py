@@ -17,7 +17,7 @@ def get_picture_detection(model,
                           ):
     ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
     z = 0
-    print(f'Funkcja aktywacji: {activation_model.upper()}')
+    print(f'Funkcja aktywacji: {activation_model.upper()} \n')
     for e, i in enumerate(os.listdir(test_picture_direction)):
         b = 0
         print(e, i)
@@ -61,6 +61,7 @@ def get_picture_detection(model,
             points_list_limit60 = []
             points_list_limit70 = []
             points_list_limit80 = []
+            points_list_noovertaking = []
             points_list_yield = []
 
             z += 1
@@ -108,9 +109,11 @@ def get_picture_detection(model,
                             points_list_limit70.append(found_point)
                         elif found_point[0] == 5:
                             points_list_limit80.append(found_point)
-                        elif found_point[0] == 8:
-                            points_list_stop.append(found_point)
+                        elif found_point[0] == 6:
+                            points_list_noovertaking.append(found_point)
                         elif found_point[0] == 9:
+                            points_list_stop.append(found_point)
+                        elif found_point[0] == 10:
                             points_list_yield.append(found_point)
 
                     else:
@@ -146,10 +149,13 @@ def get_picture_detection(model,
                 elif found_points_list[0][0] == 5:
                     color_box = (200, 200, 0)
                     class_name = "Ograniczenie 80km/h"
-                elif found_points_list[0][0] == 8:
+                elif found_points_list[0][0] == 6:
+                    color_box = (0, 100, 255)
+                    class_name = "Zakaz wyprzedzania"
+                elif found_points_list[0][0] == 9:
                     color_box = (255, 255, 0)
                     class_name = "Stop"
-                elif found_points_list[0][0] == 9:
+                elif found_points_list[0][0] == 10:
                     color_box = (200, 50, 200)
                     class_name = "Ustąp pierwszaństwo"
                 else:
@@ -217,6 +223,11 @@ def get_picture_detection(model,
                 pass
             try:
                 box_generator(points_list_yield)
+                b += 1
+            except ValueError:
+                pass
+            try:
+                box_generator(points_list_noovertaking)
                 b += 1
             except ValueError:
                 pass

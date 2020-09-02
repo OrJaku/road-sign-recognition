@@ -10,10 +10,11 @@ classes = {'cross': 0,
            'limit60': 3,
            'limit70': 4,
            'limit80': 5,
-           'nosign': 6,
-           'othersign': 7,
-           'stop': 8,
-           'yield': 9,
+           'noovertaking': 6,
+           'nosign': 7,
+           'othersign': 8,
+           'stop': 9,
+           'yield': 10,
            }
 
 
@@ -34,13 +35,14 @@ class ModelInit:
     def get_model(self):
         with open(f'models_json_files/{self.model_structure_file}.json', 'r') as f:
             model = models.model_from_json(f.read())
+            print(model)
         model.compile(
             loss='categorical_crossentropy',
             optimizer='adam',
             metrics=['acc']
         )
         # model.summary()
-        print("Model loaded")
+        print("Model loaded\n\n")
         return model
 
     def load_model(self):

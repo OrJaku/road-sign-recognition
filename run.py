@@ -16,9 +16,10 @@ parser.add_argument("--model_file", help="Wybierz plik z modelem")
 parser.add_argument("--save", action="store_true")
 parser.add_argument("--stopshow", action="store_false")
 args = parser.parse_args()
-model_structure_name = 'model_10conv'
 picture_size = 96
 number_of_classes = len(classes)
+model_structure_name = f'model_{number_of_classes}conv'
+
 
 if not args.activ_func:
     print("Liczba klas: {}".format(number_of_classes))
@@ -56,7 +57,7 @@ else:
     model_weight_file = args.model_file
 model_init = ModelInit(picture_size, number_of_classes, model_weight_file, model_structure_name)
 model = model_init.model
-print(f"Wyświetlanie zdjęć: {args.stopshow} | Zapis zdjęć: {args.save} ")
+print(f"Wyświetlanie zdjęć: {args.stopshow} | Zapis zdjęć: {args.save} \n")
 # Picture detection
 get_picture_detection(model,
                       activation_model,
