@@ -4,6 +4,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import os
 import cv2
+from .ml_model import classes
 matplotlib.use('TkAgg')
 
 
@@ -78,7 +79,7 @@ def get_picture_detection(model,
                     class_temp = []
                     for class_predicted in range(number_of_classes):
                         probability_percent = out[0][class_predicted]
-                        if class_predicted != 2:
+                        if class_predicted != classes['nosign']:
                             if activation_model == 'softmax':
                                 probability_threshold = 0.98
                             elif activation_model == 'sigmoid':
@@ -97,23 +98,23 @@ def get_picture_detection(model,
                             pass
 
                     if found_point:
-                        if found_point[0] == 0:
+                        if found_point[0] == classes['cross']:
                             points_list_cross.append(found_point)
-                        elif found_point[0] == 1:
+                        elif found_point[0] == classes['limit40']:
                             points_list_limit40.append(found_point)
-                        elif found_point[0] == 2:
+                        elif found_point[0] == classes['limit50']:
                             points_list_limit50.append(found_point)
-                        elif found_point[0] == 3:
+                        elif found_point[0] == classes['limit60']:
                             points_list_limit60.append(found_point)
-                        elif found_point[0] == 4:
+                        elif found_point[0] == classes['limit70']:
                             points_list_limit70.append(found_point)
-                        elif found_point[0] == 5:
+                        elif found_point[0] == classes['limit80']:
                             points_list_limit80.append(found_point)
-                        elif found_point[0] == 6:
+                        elif found_point[0] == classes['noovertaking']:
                             points_list_noovertaking.append(found_point)
-                        elif found_point[0] == 9:
+                        elif found_point[0] == classes['stop']:
                             points_list_stop.append(found_point)
-                        elif found_point[0] == 10:
+                        elif found_point[0] == classes['yield']:
                             points_list_yield.append(found_point)
 
                     else:
@@ -124,38 +125,40 @@ def get_picture_detection(model,
                 probability_list_array = np.array(found_points_list)
                 df = pd.DataFrame(data=probability_list_array, columns=["klasa", "prawdopodobieństwo", "położenie"])
                 df.sort_values("prawdopodobieństwo", axis=0, ascending=False, inplace=True, na_position='last')
-
+                # def get_class_name(classes_dict, class_number):
+                #     return [class_name for class_name in classes_dict
+                #             if (classes_dict[class_name] == class_number)]
                 print(df.iloc[:2])
                 max_probability = df.iloc[0]
                 probability_highest = round(max_probability[1], 2)
                 probability_highest = '%.3f' % probability_highest
                 coordinate_highest = max_probability[2]
                 x, y, w, h = coordinate_highest
-                if found_points_list[0][0] == 0:
+                if found_points_list[0][0] == classes['cross']:
                     class_name = "Przejscie"
                     color_box = (255, 0, 0)
-                elif found_points_list[0][0] == 1:
+                elif found_points_list[0][0] == classes['limit40']:
                     color_box = (50, 255, 0)
                     class_name = "Ograniczenie 40km/h"
-                elif found_points_list[0][0] == 2:
+                elif found_points_list[0][0] == classes['limit50']:
                     color_box = (100, 255, 0)
                     class_name = "Ograniczenie 50km/h"
-                elif found_points_list[0][0] == 3:
+                elif found_points_list[0][0] == classes['limit60']:
                     color_box = (150, 255, 0)
                     class_name = "Ograniczenie 60km/h"
-                elif found_points_list[0][0] == 4:
+                elif found_points_list[0][0] == classes['limit70']:
                     color_box = (200, 255, 50)
                     class_name = "Ograniczenie 70km/h"
-                elif found_points_list[0][0] == 5:
+                elif found_points_list[0][0] == classes['limit80']:
                     color_box = (200, 200, 0)
                     class_name = "Ograniczenie 80km/h"
-                elif found_points_list[0][0] == 6:
+                elif found_points_list[0][0] == classes['noovertaking']:
                     color_box = (0, 100, 255)
                     class_name = "Zakaz wyprzedzania"
-                elif found_points_list[0][0] == 9:
+                elif found_points_list[0][0] == classes['stop']:
                     color_box = (255, 255, 0)
                     class_name = "Stop"
-                elif found_points_list[0][0] == 10:
+                elif found_points_list[0][0] == classes['yield']:
                     color_box = (200, 50, 200)
                     class_name = "Ustąp pierwszaństwo"
                 else:
