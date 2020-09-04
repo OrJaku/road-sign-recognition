@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import os
 import cv2
 from .ml_model import classes
+import time
 matplotlib.use('TkAgg')
 
 
@@ -19,9 +20,11 @@ def get_picture_detection(model,
     ss = cv2.ximgproc.segmentation.createSelectiveSearchSegmentation()
     z = 0
     print(f'Funkcja aktywacji: {activation_model.upper()} \n')
+    loop_time = 0
     for e, i in enumerate(os.listdir(test_picture_direction)):
         b = 0
         print(e, i)
+        start_image_recognition = time.time()
         if i.startswith("cross") or \
                 i.startswith("stop") or \
                 i.startswith("limit") or \
@@ -246,8 +249,11 @@ def get_picture_detection(model,
             print("Obraz wyświetlony\n")
         elif save_figure:
             plt.savefig(f'figure_output/figure_{activation_model}_{i}.png')
-            print("Obraz zapisany\n")
+            print("Obraz zapisany")
         else:
             pass
-        print("===================================================")
-
+        end_image_recognition = time.time()
+        recognition_time = end_image_recognition - start_image_recognition
+        loop_time = loop_time + int(recognition_time)
+        print(f"===== Current loop: {'%.1f' % recognition_time}s == Total time: {'%.1f' %  (loop_time/60)}min =====\n")
+    print(f"Total time: {loop_time}sec | {int(loop_time/60)}min")
