@@ -33,7 +33,7 @@ def get_picture_detection(model,
             plt.figure()
             img = cv2.imread(os.path.join(test_picture_direction, i))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            height_img, width_img, chanel_img = img.shape
+            height_img, width_img, _ = img.shape
             # Picture resizing
             resized_width_value = 800
             resize_parameter = width_img / resized_width_value
