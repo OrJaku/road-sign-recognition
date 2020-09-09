@@ -11,7 +11,7 @@ parser.add_argument("--pic_num")
 args = parser.parse_args()
 
 src_path = "/media/kuba-ubuntu/UUI/img_mgr_3/sign_to_prepare"
-dst_path = "/media/kuba-ubuntu/UUI/img_mgr_3/sign"
+dst_path = "/media/kuba-ubuntu/UUI/img_mgr_3/nosing"
 
 
 def copy_only(source_path, destiny_path):
@@ -51,7 +51,6 @@ def copy_and_resize(source_path, destiny_path, new_height, new_width, number_of_
             i += 1
         image = path_direction[random_number]
         extension = image.split('.')[1]
-
         if extension == 'jpg':
             img = cv2.imread(os.path.join(source_path, image))
             height_img, width_img, _ = img.shape

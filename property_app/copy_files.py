@@ -7,6 +7,12 @@ import shutil
 
 
 def coping(origin_path, directory_path, sign_name):
+    directories = ["train_data", "valid_data", "test_data"]
+    for direction in directories:
+        try:
+            os.mkdir(os.path.join(directory_path, direction))
+        except FileExistsError:
+            pass
     dst_train = os.path.join(directory_path, 'train_data', sign_name)
     try:
         os.mkdir(dst_train)
