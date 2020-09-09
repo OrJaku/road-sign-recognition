@@ -1,6 +1,7 @@
 import os
 import shutil
 import cv2
+import random
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -31,19 +32,26 @@ def copy_only(source_path, destiny_path):
     print("Copied completely!")
 
 
-def copy_and_resize(source_path, destiny_path, new_height, new_width, number_of_picture=args.pic_num):
-
+def copy_and_resize(source_path, destiny_path, new_height, new_width, number_of_picture=int(args.pic_num)):
     path_direction = os.listdir(source_path)
     pictures_in_src_directory = len(path_direction)
+    print(pictures_in_src_directory)
     if number_of_picture is None:
         number_of_picture = pictures_in_src_directory
     else:
         pass
-    picture_to_resize = path_direction[0:int(number_of_picture)]
     i = 0
-    for image in picture_to_resize:
+    drawn_numbers_list = []
+    while i < number_of_picture:
+        random_number = random.randrange(0, pictures_in_src_directory, 1)
+        if random_number in drawn_numbers_list:
+            continue
+        else:
+            drawn_numbers_list.append(random_number)
+            i += 1
+        image = path_direction[random_number]
         extension = image.split('.')[1]
-        i += 1
+
         if extension == 'jpg':
             img = cv2.imread(os.path.join(source_path, image))
             height_img, width_img, _ = img.shape
