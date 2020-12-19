@@ -4,6 +4,8 @@ output/
 cross_test_full/
 test_images/
 picture_test_full/
+picture_test_full_t/
+fil.py
 video_test_full
 *.h5
 additonal_pic/

@@ -8,20 +8,31 @@ from PIL import Image, ImageFilter
 local = os.path.abspath(os.path.dirname(__file__))
 
 file = "yield_2.jpg"
+file = "cross_6.jpeg"
+file = "stop_12.jpeg"
+file = "limit40_2.jpg"
+
 test_picture_folder = 'picture_test_full_t'
+
 
 
 def picture_filter(local_path, test_picture_folder_name, file_name):
     plt.figure()
+    # yellow
+    # blue
+    # red
+    # white
     boundaries = [
-        ([128, 0, 0], [255, 160, 128]),
-        ([86, 31, 4], [220, 88, 50]),
-        ([25, 146, 190], [62, 174, 250]),
-        ([103, 86, 65], [145, 133, 128]),
-    ]
+        (np.array([0, 128, 130]), np.array([32, 255, 255])),
+        (np.array([96, 120, 0]), np.array([150, 255, 255])),
+        (np.array([133, 88, 0]), np.array([179, 255, 255])),
 
+    ]
     test_picture_direction = os.path.join(local_path, test_picture_folder_name)
     img = cv2.imread(os.path.join(test_picture_direction, file_name))
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+
     # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     # img = Image.open(os.path.join(test_picture_direction, file_name))
@@ -29,12 +40,11 @@ def picture_filter(local_path, test_picture_folder_name, file_name):
     #                    [-1, 9,-1],
     #                    [-1,-1,-1]])
     # img = cv2.filter2D(img, -1, kernel)
-    plt.imshow(img)
+    # plt.imshow(img)
     for (lower, upper) in boundaries:
         # create NumPy arrays from the boundaries
-        lower = np.array(lower, dtype="uint8")
-        upper = np.array(upper, dtype="uint8")
-        mask = cv2.inRange(img, lower, upper)
+
+        mask = cv2.inRange(img_hsv, lower, upper)
         output = cv2.bitwise_and(img, img, mask=mask)
         # show the images
         cv2.imshow("images", np.hstack([img, output]))
